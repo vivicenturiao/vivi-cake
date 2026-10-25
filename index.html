@@ -62,6 +62,7 @@
 
 <section class="pg on" id="ped">
 <div class="ph rv"><h1>Pedidos</h1><p class="sub">Escolha um dia no calendário para ver os pedidos e cadastrar novos. Tudo fica salvo neste aparelho.</p></div>
+<div class="bkb rv" id="bkb" hidden><span><b>Backup de hoje</b> ainda não foi feito.</span><button class="btn sm" id="bkn">Fazer backup agora</button></div>
 <div class="hero rv"><svg class="hv" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
 <path d="M58 44H112L158 196L150 222Z"/>
 <path d="M152 246L146 246L58 44H76L158 226Z" />
@@ -83,10 +84,12 @@
 <div class="stats" id="hst"></div>
 </div>
 <div class="money"><div class="card rv" id="fat"></div><div class="card rv" id="cst"></div></div>
+<div class="xlr rv"><button class="btn soft sm" id="xls2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Baixar planilha financeira do mês</button></div>
 <div class="g c2 pedg">
 <div class="card rv"><div class="row"><button class="btn soft ico" id="pv" aria-label="Mês anterior">‹</button><h3 id="mt"></h3><button class="btn soft ico" id="nx" aria-label="Próximo mês">›</button></div><div class="cal" id="cal"></div></div>
 <div class="card rv" id="dp" aria-live="polite"></div>
 </div>
+<div class="card rv bkc"><div class="row"><div><h3>Backup dos seus dados</h3><p class="m" id="bki" style="margin:4px 0 0"></p></div><div class="hb"><button class="btn soft" id="bkr">Restaurar backup</button><button class="btn" id="bkd">Fazer backup</button></div></div><p class="m" style="margin:10px 0 0">O backup salva pedidos, fichas, cardápio, estoque e custos num arquivo. No celular, escolha <b>Google Drive</b> e a pasta <b>Sistema Vivi Cake</b>. Para recuperar num aparelho novo, use Restaurar backup.</p><input type="file" id="bkf" accept=".json,application/json" hidden></div>
 </section>
 
 <section class="pg" id="rec">
@@ -111,6 +114,7 @@
 <div class="kpis"><div class="kc rv"><span class="m">Total por mês</span><b id="ct1"></b></div><div class="kc rv"><span class="m">Custo por dia</span><b id="ct3"></b></div><div class="kc rv"><span class="m">Custos com valor</span><b id="ct2"></b></div></div>
 <div class="card rv"><div class="row"><h3>Seus custos</h3><button class="btn" id="nc">+ Novo custo</button></div><div id="cs"></div>
 <div class="sgw"><p class="m">Sugestões para adicionar rápido:</p><div class="chips" id="csg"></div></div></div>
+<div class="card rv xlc"><div class="row"><div><h3>Planilha financeira</h3><p class="m" style="margin:4px 0 0">Excel com renda, custo de material, custos fixos e lucro do mês, mais a visão mês a mês do ano. Abre no Google Planilhas.</p></div><button class="btn" id="xls">Baixar planilha do mês</button></div></div>
 </section>
 
 </main></div>

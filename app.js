@@ -48,12 +48,13 @@ function fv(f){var n=function(i){return '<td class="n">'+(i+1)+'</td>'},q=functi
 if(f.e&&f.e.length)h+=vt('EMBALAGEM',f.e.map(q),3);var any=0;
 [['UTENSÍLIOS','u'],['PRÉ-PRODUÇÃO','p'],['FINALIZAÇÃO','f']].forEach(function(s){var L=f[s[1]]||[];if(L.length){any=1;h+=vt(s[0],L.map(function(x,i){return '<tr>'+n(i)+'<td>'+x+'</td></tr>'}))}});
 if(!any)h+='<p class="m">Utensílios e modo de preparo: preencha no Word baixado.</p>';return h}
+var TAG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>';
 var EDI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>';
 var DLI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>';
 function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
 function rl(){var q=norm($('rq').value.trim()),a=0,b=0;
 $('fl').innerHTML=fichas.map(function(f,k){if(q&&norm(f.n+' '+(f.t||'')+' '+f.i.map(function(x){return x[0]}).join(' ')).indexOf(q)<0)return '';a++;return '<div class="fc"><div class="row"><div><div class="t">'+f.n+'</div><div class="meta"><span>'+f.r+'</span>'+(f.va?'<span>Validade '+f.va.toLowerCase()+'</span>':'')+(f.c&&f.c!=='—'?'<span>Custo <b>'+f.c+'</b></span>':'')+(f.pv?'<span>Venda <b>'+f.pv+'</b></span>':'')+'</div></div><div class="cr"><button class="btn ghost sm ef" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="f:'+k+'">'+DLI+'Baixar ficha</button></div></div><div class="ia"><button class="lk xf" data-k="'+k+'">Remover ficha</button></div><details><summary class="m">Ver ficha completa</summary>'+fv(f)+'</details></div>'}).join('')||(fichas.length?'<div class="empty">Nenhuma ficha encontrada para essa busca.</div>':'<div class="empty">Nenhuma ficha técnica ainda.<br>Toque em <b>+ Nova ficha</b> para cadastrar a primeira receita.</div>');
-$('cd').innerHTML=cardapio.map(function(c,k){if(q&&norm(c[0]+' '+c[1]).indexOf(q)<0)return '';b++;return '<div class="fc"><div class="row"><div><div class="t">'+c[0]+'</div><div class="meta"><span>'+c[1]+'</span></div></div><div class="cr"><span class="tagr">'+brl(c[2])+'</span><button class="btn ghost sm ec" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="c:'+k+'">'+DLI+'Baixar item do cardápio</button></div></div><div class="ia"><button class="lk xc" data-k="'+k+'">Remover do cardápio</button></div></div>'}).join('')||(cardapio.length?'<div class="empty">Nenhum item encontrado para essa busca.</div>':'<div class="empty">O cardápio está vazio.<br>Toque em <b>+ Novo item</b> ou cadastre uma ficha com preço de venda.</div>');
+$('cd').innerHTML=cardapio.map(function(c,k){if(q&&norm(c[0]+' '+c[1]).indexOf(q)<0)return '';b++;return '<div class="fc"><div class="row"><div><div class="t">'+c[0]+'</div><div class="meta"><span>'+c[1]+'</span></div></div><div class="cr"><span class="tagr">'+brl(c[2])+'</span><button class="btn ghost sm ps" data-k="'+k+'">'+TAG+'Preço sugerido</button><button class="btn ghost sm ec" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="c:'+k+'">'+DLI+'Baixar item do cardápio</button></div></div><div class="ia"><button class="lk xc" data-k="'+k+'">Remover do cardápio</button></div></div>'}).join('')||(cardapio.length?'<div class="empty">Nenhum item encontrado para essa busca.</div>':'<div class="empty">O cardápio está vazio.<br>Toque em <b>+ Novo item</b> ou cadastre uma ficha com preço de venda.</div>');
 document.querySelectorAll('.dlb[data-k="f"]').forEach(function(b){b.disabled=!fichas.length});document.querySelectorAll('.dlb[data-k="c"]').forEach(function(b){b.disabled=!cardapio.length});
 $('rc').textContent=q?'Encontrado: '+a+' de '+fichas.length+' fichas e '+b+' de '+cardapio.length+' itens do cardápio':''}
 rl();$('rq').oninput=rl;
@@ -130,7 +131,7 @@ $('hi').textContent=(hr<12?'Bom dia':hr<18?'Boa tarde':'Boa noite')+', Vivi';
 for(var i=0;i<7;i++){var d=new Date(td.getFullYear(),td.getMonth(),td.getDate()+i);wk+=(orders[key(d.getFullYear(),d.getMonth(),d.getDate())]||[]).length}
 Object.keys(orders).forEach(function(x){var p=x.split('-');if(+p[0]===td.getFullYear()&&+p[1]-1===td.getMonth())orders[x].forEach(function(o){mo+=+o.v||0})});
 var nx=L.slice().sort(function(a,b){var x=hm(a),y=hm(b);return x[0]*60+x[1]-y[0]*60-y[1]})[0];
-$('hs').textContent=L.length?'Hoje você tem '+L.length+(L.length>1?' entregas':' entrega')+'. A primeira é às '+nx.h+'.':'Nenhuma entrega hoje. Bom dia para adiantar a produção.';
+var hasH=nx&&/\d/.test(String(nx.h));$('hs').textContent=L.length?'Hoje você tem '+L.length+(L.length>1?' entregas':' entrega')+(hasH?'. A primeira é às '+nx.h+'.':'.'):'Nenhuma entrega hoje. Um bom dia para adiantar a produção.';
 if(!$('hst').firstChild)$('hst').innerHTML='<div><b id="h1"></b><span>Pedidos hoje</span></div><div><b id="h2"></b><span>Próximos 7 dias</span></div><div><b id="h3"></b><span>Vendido no mês</span></div>';
 count($('h1'),L.length,function(v){return Math.round(v)});count($('h2'),wk,function(v){return Math.round(v)});count($('h3'),mo,function(v){return brl(v).replace(/,\d\d$/,'')})}
 
@@ -226,10 +227,81 @@ function ctu(first){var t=ctot(),n=fixos.filter(function(r){return r[1]>0}).leng
 var dd=new Date(cy,cm+1,0).getDate();count($('ct3'),t/dd,brl)}
 function addCusto(nome){fixos.push([nome||'',0]);save();cus();var ins=$('cs').querySelectorAll('.crw');var last=ins[ins.length-1];if(last){last.querySelector(nome?'[data-f="1"]':'[data-f="0"]').focus();reveal([last])}}
 $('nc').onclick=function(){addCusto('')};
+
+/* ---------- backup ---------- */
+var BKK='vivicake-ultimo-backup';
+function lastBk(){try{return localStorage.getItem(BKK)||''}catch(e){return ''}}
+function hasData(){return Object.keys(orders).some(function(k){return orders[k].length})||fichas.length||cardapio.length||estoque.length||fixos.length}
+function bkInfo(){var l=lastBk(),el=$('bki');if(!el)return;if(!l){el.textContent='Nenhum backup feito ainda neste aparelho.';return}var p=l.split('-');el.textContent='Último backup: '+(+p[2])+' de '+MES[+p[1]-1]+' de '+p[0]+'.'}
+function bkBanner(){var b=$('bkb');if(!b)return;var show=hasData()&&lastBk()!==todayK()&&new Date().getHours()>=7;b.hidden=!show}
+async function backup(){var d={app:'vivi-cake',versao:1,salvoEm:new Date().toISOString(),dados:{orders:orders,fichas:fichas,cardapio:cardapio,estoque:estoque,fixos:fixos}};
+var ok=await out(new Blob([JSON.stringify(d,null,1)],{type:'application/json'}),'vivi-cake-backup-'+todayK()+'.json');
+if(ok!==false){try{localStorage.setItem(BKK,todayK())}catch(e){}bkInfo();bkBanner();toast('Backup criado. Guarde no Google Drive, na pasta Sistema Vivi Cake')}}
+function restore(file){if(!file)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result),x=d&&d.dados;if(!x||d.app!=='vivi-cake')throw 0;
+var n=(x.fichas||[]).length,p=Object.keys(x.orders||{}).reduce(function(a,k){return a+x.orders[k].length},0);
+if(!confirm('Restaurar o backup de '+String(d.salvoEm||'').slice(0,10).split('-').reverse().join('/')+'?\n'+p+' pedidos e '+n+' fichas.\n\nIsso substitui o que está neste aparelho agora.'))return;
+orders=x.orders||{};fichas=x.fichas||[];cardapio=x.cardapio||[];estoque=x.estoque||[];fixos=x.fixos||[];save();cal();day();rl();stk();gr();cus();hero();money();toast('Backup restaurado')}catch(e){toast('Esse arquivo não é um backup da Vivi Cake')}};r.readAsText(file)}
+$('bkd').onclick=backup;$('bkn').onclick=backup;$('bkr').onclick=function(){$('bkf').click()};$('bkf').onchange=function(){restore(this.files[0]);this.value=''};
+
+/* ---------- planilha financeira (.xlsx) ---------- */
+function colL(i){return String.fromCharCode(65+i)}
+function xc(r,i,v,s){var ref=colL(i)+r,st=s?' s="'+s+'"':'';if(v==null||v==='')return '';if(typeof v==='object'&&v.f)return '<c r="'+ref+'"'+st+'><f>'+xe(v.f)+'</f></c>';if(typeof v==='number')return '<c r="'+ref+'"'+st+'><v>'+v+'</v></c>';return '<c r="'+ref+'"'+st+' t="inlineStr"><is><t xml:space="preserve">'+xe(v)+'</t></is></c>'}
+function xsheet(rows,widths){return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>'+widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join('')+'</cols><sheetData>'+rows.map(function(r,ri){return '<row r="'+(ri+1)+'">'+r.map(function(c,ci){return c==null?'':Array.isArray(c)?xc(ri+1,ci,c[0],c[1]):xc(ri+1,ci,c,0)}).join('')+'</row>'}).join('')+'</sheetData></worksheet>'}
+async function planilha(){var y=cy,m=cm,L=[],H=['Data','Cliente','Bolo','Quantidade','Horário','Valor (renda)','Custo de material','Lucro do pedido'].map(function(t){return [t,1]});
+Object.keys(orders).sort().forEach(function(k){var p=k.split('-');if(+p[0]===y&&+p[1]-1===m)orders[k].forEach(function(o){var c=fcost(o.b);L.push([p[2]+'/'+p[1]+'/'+p[0],o.c,o.b,o.s,o.h,[+o.v||0,2],[c==null?0:c*qty(o),2]])})});
+var ped=[H].concat(L.map(function(r,i){r.push([{f:'F'+(i+2)+'-G'+(i+2)},2]);return r}));
+var fx=[[['Custo fixo',1],['Valor mensal',1]]].concat(fixos.filter(function(r){return r[0]||r[1]}).map(function(r){return [r[0]||'Sem nome',[+r[1]||0,2]]}));
+var nm=MES[m][0].toUpperCase()+MES[m].slice(1)+' de '+y,np=L.length+1,nf=fx.length;
+var res=[[['Vivi Cake — '+nm,5],null],[null,null],[['Resumo do mês',1],['Valor',1]],
+['Renda (faturamento)',[{f:'SUM(Pedidos!F2:F'+Math.max(2,np)+')'},2]],['Custo de material',[{f:'SUM(Pedidos!G2:G'+Math.max(2,np)+')'},2]],['Custos fixos',[{f:"SUM('Custos fixos'!B2:B"+Math.max(2,nf)+')'},2]],
+['Custo total',[{f:'B5+B6'},2]],[['Lucro',5],[{f:'B4-B7'},3]],['Margem de lucro',[{f:'IF(B4=0,0,B8/B4)'},4]],['Pedidos no mês',L.length],[null,null],['Na aba Mensal, os custos fixos entram a partir do primeiro mês com pedidos até o mês atual.',null],['Os valores de material vêm das fichas técnicas (custo de produção). Pedidos sem ficha entram com custo de material zero.',null]];
+var men=[[['Mês',1],['Renda',1],['Custo de material',1],['Custos fixos',1],['Custo total',1],['Lucro',1],['Margem',1]]],ft=fixos.reduce(function(a,r){return a+(+r[1]||0)},0),ks=Object.keys(orders).filter(function(k){return orders[k].length}).sort(),first=ks.length?ks[0].slice(0,7):null,lastM=(y<td.getFullYear()?11:y>td.getFullYear()?-1:Math.max(td.getMonth(),m));
+for(var i=0;i<12;i++){var rv=0,mt=0;Object.keys(orders).forEach(function(k){var p=k.split('-');if(+p[0]===y&&+p[1]-1===i)orders[k].forEach(function(o){rv+=+o.v||0;var c=fcost(o.b);if(c!=null)mt+=c*qty(o)})});var r=i+2;
+var ym=y+'-'+pad(i+1),fxm=(first&&ym>=first&&i<=lastM)||i===m?ft:0;men.push([MES[i][0].toUpperCase()+MES[i].slice(1),[rv,2],[mt,2],[fxm,2],[{f:'C'+r+'+D'+r},2],[{f:'B'+r+'-E'+r},2],[{f:'IF(B'+r+'=0,0,F'+r+'/B'+r+')'},4]])}
+men.push([['Total do ano',5],[{f:'SUM(B2:B13)'},3],[{f:'SUM(C2:C13)'},3],[{f:'SUM(D2:D13)'},3],[{f:'SUM(E2:E13)'},3],[{f:'SUM(F2:F13)'},3],[{f:'IF(B14=0,0,F14/B14)'},4]]);
+var sh=[['Resumo do mês',xsheet(res,[34,18])],['Pedidos',xsheet(ped,[12,22,28,14,10,16,18,16])],['Custos fixos',xsheet(fx,[30,16])],['Mensal '+y,xsheet(men,[14,16,18,16,16,16,10])]];
+var st='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="2"><numFmt numFmtId="164" formatCode="&quot;R$&quot; #,##0.00"/><numFmt numFmtId="165" formatCode="0.0%"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF6E1E4"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="164" fontId="1" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+var f=[['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sh.map(function(s,i){return '<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'}).join('')+'</Types>'],
+['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],
+['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><calcPr fullCalcOnLoad="1"/><sheets>'.replace('<calcPr fullCalcOnLoad="1"/>','')+sh.map(function(s,i){return '<sheet name="'+xe(s[0])+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>'}).join('')+'</sheets><calcPr fullCalcOnLoad="1"/></workbook>'],
+['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sh.map(function(s,i){return '<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>'}).join('')+'<Relationship Id="rId'+(sh.length+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'],
+['xl/styles.xml',st]].concat(sh.map(function(s,i){return ['xl/worksheets/sheet'+(i+1)+'.xml',s[1]]}));
+var b=zip(f);b=new Blob([b],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+var ok=await out(b,'vivi-cake-financeiro-'+y+'-'+pad(m+1)+'.xlsx');if(ok!==false)toast('Planilha de '+MES[m]+' baixada')}
+$('xls').onclick=planilha;$('xls2').onclick=planilha;
+
+/* ---------- preço sugerido (markup) ---------- */
+var MKK='vivicake-markup';
+function mkGet(){var d={l:30,c:1.95,a:18.5,f:null};try{var s=JSON.parse(localStorage.getItem(MKK)||'null');if(s)for(var k in s)d[k]=s[k]}catch(e){}return d}
+function fixPct(){var by={};Object.keys(orders).forEach(function(k){var mk=k.slice(0,7);orders[k].forEach(function(o){by[mk]=(by[mk]||0)+(+o.v||0)})});var ms=Object.keys(by).filter(function(k){return by[k]>0});var ft=fixos.reduce(function(a,r){return a+(+r[1]||0)},0);
+if(!ms.length||!ft)return {p:ft?15:0,auto:false,ft:ft};var avg=ms.reduce(function(a,k){return a+by[k]},0)/ms.length;var raw=Math.round(ft/avg*1000)/10;return {p:Math.min(25,raw),raw:raw,auto:true,ft:ft,avg:avg}}
+function pc(v){return String(v).replace('.',',')}
+function r90(p){var c=Math.ceil(p)-0.1;return c>=p?c:c+1}
+function priceSheet(k){var it=cardapio[k],f=fichas.filter(function(x){return norm(x.n)===norm(it[0])})[0],c0=f?fcost(f.n):null,mk=mkGet(),fp=fixPct(),fv=mk.f==null?fp.p:mk.f;
+var hint=fp.auto?'Calculado: seus custos fixos ('+brl(fp.ft)+') ÷ faturamento médio do mês ('+brl(fp.avg)+')'+(fp.raw>25?' deu '+String(fp.raw).replace('.',',')+'%. Usei 25% como teto, porque o faturamento ainda está baixo.':'.'):(fp.ft?'Ainda sem pedidos para calcular. Usando 15% como base.':'Cadastre seus custos na aba Custos para calcular.');
+var b='<p class="m" style="margin:0 0 6px"><b>'+esc(it[0])+'</b>'+(f?' · custo da ficha técnica':' · sem ficha técnica com esse nome')+'</p>'
++fld('pc','Custo de preparo do item (R$)',c0==null?'':String(c0.toFixed(2)).replace('.',','),{im:'decimal',ph:'Ex.: 38,50',hint:f?'Vem da ficha técnica. Pode ajustar aqui só para a simulação.':'Digite quanto custa fazer uma unidade (ingredientes + embalagem).'})
++'<div class="two">'+fld('pl','Lucro desejado (%)',pc(mk.l),{im:'decimal'})+fld('pf','Custos fixos (%)',pc(fv),{im:'decimal'})+'</div><span class="hint" style="margin-top:-2px">'+hint+'</span>'
++'<div class="two">'+fld('pt','Taxa do cartão (%)',pc(mk.c),{im:'decimal'})+fld('pa','Taxa do app de entrega (%)',pc(mk.a),{im:'decimal'})+'</div>'
++'<div class="pres" id="pres"></div>';
+openSheet('Preço sugerido',b,function(){var s=$('pres').dataset.s;if(!s){toast('Informe o custo de preparo');return false}var v=+s;it[2]=v;if(f)f.pv=brl(v);save();rl();toast('Preço de '+it[0]+' atualizado para '+brl(v))},'Usar preço sugerido');
+function calc(){var c=num($('pc').value),l=num($('pl').value)||0,fx=num($('pf').value)||0,t=num($('pt').value)||0,a=num($('pa').value)||0,el=$('pres');
+try{localStorage.setItem(MKK,JSON.stringify({l:l,c:t,a:a,f:(fp.auto&&Math.abs(fx-fp.p)<0.05)?null:fx}))}catch(e){}
+if(c==null||c<=0){el.innerHTML='<div class="empty" style="padding:18px">Digite o custo de preparo para ver os preços.</div>';el.dataset.s='';return}
+var dMin=1-(fx+t)/100,dSug=1-(fx+t+l)/100,dApp=1-(fx+a+l)/100;
+if(dSug<=0.05||dApp<=0.05){el.innerHTML='<div class="empty" style="padding:18px">A soma das porcentagens ficou alta demais. Diminua o lucro ou as taxas.</div>';el.dataset.s='';return}
+var pMin=c/dMin,pSug=c/dSug,pApp=c/dApp,sug=r90(pSug),app=r90(pApp),cur=+it[2]||0,mg=cur?(cur*dMin-c)/cur*100:null;
+var st=!cur?'':cur<pMin?['bad','Seu preço atual dá prejuízo']:cur<pSug?['mid','Seu preço atual dá lucro, mas abaixo do desejado']:['ok','Seu preço atual está bom'];
+el.dataset.s=sug.toFixed(2);
+el.innerHTML='<div class="pgrid"><div class="pbx"><span class="m">Preço mínimo</span><b>'+brl(r90(pMin))+'</b><span class="m">sem lucro, só paga custos</span></div><div class="pbx hi"><span class="m">Preço sugerido</span><b>'+brl(sug)+'</b><span class="m">balcão e cartão · '+(sug/c).toFixed(1).replace('.',',')+'× o custo</span></div><div class="pbx"><span class="m">No app de entrega</span><b>'+brl(app)+'</b><span class="m">com a taxa do app</span></div></div>'
++(cur?'<div class="pcur '+st[0]+'"><span>Hoje: <b>'+brl(cur)+'</b> · lucro de '+(mg).toFixed(0)+'% por venda</span><span>'+st[1]+'</span></div>':'')
++'<p class="m" style="margin:10px 0 0">Conta usada (markup): custo ÷ (1 − custos fixos − taxa − lucro). Os preços são arredondados para terminar em ,90.</p>'}
+['pc','pl','pf','pt','pa'].forEach(function(i){$(i).oninput=calc});calc()}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.ps');if(b)priceSheet(+b.dataset.k)});
 $('spk').onclick=function(){speak(todayK())};$('ics').onclick=ics;
 var tipEl=document.createElement('div');tipEl.id='tip';tipEl.className='tip';document.body.appendChild(tipEl);
 if('speechSynthesis' in window)speechSynthesis.getVoices();
 
-cal();day();stk();gr();cus();hero();money();ind(true);reveal(document.querySelectorAll('#ped .rv'));$('sq').oninput=function(){fq=this.value;stk()};document.querySelectorAll('.gt').forEach(function(b){b.onclick=function(){gt=b.dataset.g;gr()}});
+cal();day();stk();gr();cus();hero();money();bkInfo();bkBanner();ind(true);reveal(document.querySelectorAll('#ped .rv'));$('sq').oninput=function(){fq=this.value;stk()};document.querySelectorAll('.gt').forEach(function(b){b.onclick=function(){gt=b.dataset.g;gr()}});
 $('ai').onclick=function(){formIns()};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});

@@ -9,6 +9,8 @@ Painel da confeitaria Vivi Cake. É um site estático (HTML, CSS e JS, sem etapa
 - **Ouvir pedidos:** o app lê em voz alta (pt-BR) os pedidos do dia.
 - **Fichas técnicas e cardápio:** cadastro, edição e remoção pelo app, busca, ficha completa e download em Word de uma ficha, de um item ou de tudo.
 - **Custos do mês:** aba para cadastrar e editar os gastos fixos (aluguel, luz, salários…), com sugestões rápidas. O total entra no gráfico de custo.
+- **Preço sugerido:** em cada item do cardápio, calcula preço mínimo, sugerido (balcão) e no app de entrega pelo markup: custo ÷ (1 − custos fixos − taxa − lucro), e compara com o preço atual.
+- **Planilha financeira:** botão *Baixar planilha financeira do mês* (Pedidos ou Custos) gera um Excel com Resumo (renda, custo de material, custos fixos, lucro e margem), Pedidos, Custos fixos e Mensal do ano.
 - **Estoque:** quantidade e mínimo digitados direto na tabela, gráficos de custo e físico e alerta de reposição.
 - **PWA:** instala na tela inicial e funciona offline depois do primeiro acesso.
 
@@ -43,6 +45,8 @@ index.html · style.css · app.js · sw.js · manifest.webmanifest · .nojekyll 
 Para o celular avisar (e falar, se o leitor de notificações estiver ativo), adicione cada pedido ao Google Agenda pelo botão do pedido. O aviso usa os lembretes padrão da sua agenda (Google Agenda → Configurações → sua agenda → Notificações padrão).
 
 ## Dados
+**Backup:** em Pedidos, use *Fazer backup* (salve no Google Drive, pasta *Sistema Vivi Cake*) e *Restaurar backup* para recuperar num aparelho novo. Depois das 7h, se o backup do dia não foi feito, o app mostra um lembrete.
+
 Pedidos e estoque ficam no `localStorage` do aparelho: limpar os dados do navegador apaga tudo, e não há sincronização entre aparelhos.
 O app começa vazio: cadastre fichas técnicas (**+ Nova ficha**), itens do cardápio (**+ Novo item**), insumos (**+ Novo insumo**) e pedidos pelo próprio app. Tudo fica salvo no aparelho.
-Ao atualizar arquivos, troque a versão em `sw.js` (`var V='vivicake-v8'`) para o cache renovar.
+Ao atualizar arquivos, troque a versão em `sw.js` (`var V='vivicake-v11'`) para o cache renovar.
