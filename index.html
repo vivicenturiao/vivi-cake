@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4a2f3d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ateliê">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Ateliê de Bolos — gestão</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<nav><span class="lg">Ateliê</span>
+<button data-p="ped" class="on" title="Pedidos">◫</button>
+<button data-p="rec" title="Fichas e cardápio">❦</button>
+<button data-p="est" title="Estoque">▤</button></nav>
+<main>
+
+<section class="pg on" id="ped">
+<h1>Pedidos de bolo</h1><p class="sub">Toque em um dia para ver pedido e cartão do cliente. Tudo fica salvo neste aparelho.</p>
+<div class="g c2" style="grid-template-columns:1.1fr 1fr">
+<div class="card"><div class="row"><button class="btn soft" id="pv">‹</button><h3 id="mt"></h3><button class="btn soft" id="nx">›</button></div><div class="cal" id="cal"></div></div>
+<div class="card" id="dp"></div>
+</div>
+</section>
+
+<section class="pg" id="rec">
+<h1>Fichas técnicas &amp; cardápio</h1><p class="sub">Cada aba gera um arquivo Word (.docx) para baixar.</p>
+<div class="g c2" style="grid-template-columns:1.2fr 1fr">
+<div class="card float"><div class="fh"><span class="tab">Fichas técnicas</span><button class="btn dlb" data-k="f">⬇ Baixar Word</button></div><div id="fl"></div></div>
+<div class="card float"><div class="fh"><span class="tab">Cardápio</span><button class="btn dlb" data-k="c">⬇ Baixar Word</button></div><div id="cd"></div></div>
+</div>
+</section>
+
+<section class="pg" id="est">
+<h1>Estoque de matéria-prima</h1><p class="sub">Use + e − para ajustar. A barra fica rosa-escura quando está no mínimo ou abaixo.</p>
+<button class="btn" id="ai" style="margin-bottom:10px">+ Novo insumo</button>
+<div class="card" id="sk"></div>
+</section>
+
+</main></div>
+<div class="toast" id="ts"></div>
+<script src="app.js"></script>
+</body>
+</html>
