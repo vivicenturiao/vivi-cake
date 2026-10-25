@@ -1,13 +1,13 @@
 var MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 var DIA=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
 var orders={};
-var fixos=[['Salário de funcionários',1500],['Aluguel',1000],['Outras despesas',300],['MEI e contador',62],['Internet',60],['Energia',57.5],['Gás',55],['Água',25.42]];
+var fixos=[];
 var fichas=[];
 var cardapio=[];
 var estoque=[];
 var KEY='vivicake-v4';
-function save(){try{localStorage.setItem(KEY,JSON.stringify({orders:orders,estoque:estoque,fichas:fichas,cardapio:cardapio}))}catch(e){}}
-try{var sv0=JSON.parse(localStorage.getItem(KEY)||'null');if(sv0){orders=sv0.orders||orders;estoque=sv0.estoque||estoque;fichas=sv0.fichas||fichas;cardapio=sv0.cardapio||cardapio}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({orders:orders,estoque:estoque,fichas:fichas,cardapio:cardapio,fixos:fixos}))}catch(e){}}
+try{var sv0=JSON.parse(localStorage.getItem(KEY)||'null');if(sv0){orders=sv0.orders||orders;estoque=sv0.estoque||estoque;fichas=sv0.fichas||fichas;cardapio=sv0.cardapio||cardapio;fixos=sv0.fixos||fixos}}catch(e){}
 var brl=function(v){return 'R$ '+(+v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var pad=function(n){return n<10?'0'+n:''+n};
@@ -111,7 +111,7 @@ z.file('_rels/.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns
 z.file('word/document.xml','<?xml version="1.0" encoding="UTF-8"?><w:document '+ns+'><w:body>'+mk(kind)+'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134"/></w:sectPr></w:body></w:document>');
 await out(zip(z.f),fname(kind))}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.dlb');if(b)dl(b.dataset.k)});
-document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){if(b.classList.contains('on'))return;document.querySelectorAll('nav button,.pg').forEach(function(x){x.classList.remove('on');x.removeAttribute('aria-current')});b.classList.add('on');b.setAttribute('aria-current','page');var pg=$(b.dataset.p);pg.classList.add('on');ind();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});reveal(pg.querySelectorAll('.rv'));if(b.dataset.p==='est'){gr()}if(b.dataset.p==='ped'){hero();money()}}});
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){if(b.classList.contains('on'))return;document.querySelectorAll('nav button,.pg').forEach(function(x){x.classList.remove('on');x.removeAttribute('aria-current')});b.classList.add('on');b.setAttribute('aria-current','page');var pg=$(b.dataset.p);pg.classList.add('on');ind();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});reveal(pg.querySelectorAll('.rv'));if(b.dataset.p==='est'){gr()}if(b.dataset.p==='ped'){hero();money()}if(b.dataset.p==='cus'){cus()}}});
 window.addEventListener('resize',function(){ind(true)});
 
 /* ---------- motion ---------- */
@@ -140,7 +140,7 @@ function fcost(b){var f=fichas.filter(function(x){return norm(x.n)===norm(b)})[0
 function qty(o){var m=String(o.s||'').match(/\d+/);return m?Math.max(1,+m[0]):1}
 function monthOrders(){var L=[];Object.keys(orders).forEach(function(x){var p=x.split('-');if(+p[0]===cy&&+p[1]-1===cm)orders[x].forEach(function(o){L.push(o)})});return L}
 function fold(rows,max){rows.sort(function(a,b){return b[1]-a[1]});if(rows.length<=max)return rows;var top=rows.slice(0,max-1),rest=rows.slice(max-1).reduce(function(a,r){return a+r[1]},0);top.push(['Outros',rest,1]);return top}
-function pie(id,title,rows,note,emptyMsg){var tot=rows.reduce(function(a,r){return a+r[1]},0),el=$(id);
+function pie(id,title,rows,note,emptyMsg){rows=rows.filter(function(r){return r[1]>0});var tot=rows.reduce(function(a,r){return a+r[1]},0),el=$(id);
 var h='<div class="row"><h3>'+title+'</h3><span class="m" style="text-transform:capitalize">'+MES[cm]+'</span></div>';
 if(!tot){el.innerHTML=h+'<div class="empty">'+emptyMsg+'</div>';return}
 var a0=-Math.PI/2,R=72,C=75,paths='',lg='';
@@ -158,9 +158,9 @@ function money(){var L=monthOrders(),by={},rev=0,mp=0,miss=0;
 L.forEach(function(o){var v=+o.v||0;rev+=v;by[o.b]=(by[o.b]||0)+v;var c=fcost(o.b);if(c==null)miss++;else mp+=c*qty(o)});
 var fx=fixos.reduce(function(a,r){return a+r[1]},0);
 pie('fat','Faturamento do mês',fold(Object.keys(by).map(function(k){return [k,by[k]]}),5),'<div class="pnote"><span>'+L.length+(L.length===1?' pedido':' pedidos')+' no mês</span><span>Ticket médio <b>'+brl(L.length?rev/L.length:0)+'</b></span></div>','Nenhum pedido em '+MES[cm]+'. Os valores aparecem aqui assim que você cadastrar pedidos.');
-var crow=[['Insumos e embalagem dos pedidos',mp],['Salário de funcionários',fixos[0][1]],['Aluguel',fixos[1][1]],['Outras despesas',fixos[2][1]],['Contas (MEI, internet, luz, gás, água)',fixos.slice(3).reduce(function(a,r){return a+r[1]},0)]];
+var fr=fold(fixos.filter(function(r){return r[1]>0}).map(function(r){return [r[0],r[1]]}),4);if(fr.length&&fr[fr.length-1][2])fr[fr.length-1][0]='Outros custos fixos';var crow=[['Insumos e embalagem dos pedidos',mp]].concat(fr);
 var res=rev-mp-fx;
-pie('cst','Custo do mês',crow,'<div class="pnote"><span>Resultado estimado</span><b style="color:'+(res<0?'var(--bad)':'var(--ok)')+'">'+(res<0?'− ':'')+brl(Math.abs(res))+'</b></div>'+(miss?'<p class="m" style="margin:8px 0 0">'+miss+(miss>1?' pedidos sem ficha técnica não entraram':' pedido sem ficha técnica não entrou')+' no custo de insumos.</p>':''),'')}
+pie('cst','Custo do mês',crow,'<div class="pnote"><span>Resultado estimado</span><b style="color:'+(res<0?'var(--bad)':'var(--ok)')+'">'+(res<0?'− ':'')+brl(Math.abs(res))+'</b></div>'+(miss?'<p class="m" style="margin:8px 0 0">'+miss+(miss>1?' pedidos sem ficha técnica não entraram':' pedido sem ficha técnica não entrou')+' no custo de insumos.</p>':'')+(fixos.length?'':'<p class="m" style="margin:8px 0 0">Cadastre aluguel, luz e outros gastos na aba <b>Custos</b>.</p>'),'Nenhum custo em '+MES[cm]+'. Cadastre seus gastos do mês na aba Custos.')}
 
 /* ---------- voz e agenda ---------- */
 function speak(k){if(!('speechSynthesis' in window)){toast('Este navegador não lê em voz alta');return}
@@ -211,10 +211,25 @@ var u='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encode
 window.open(u,'_blank','noopener')}
 $('dly').onclick=daily;
 if(/[?&]hoje=1/.test(location.search)){sel=todayK();cal();day();setTimeout(function(){toast('Toque em “Ouvir pedidos de hoje” para ouvir as entregas');var b=$('spk');b.classList.add('pulse');setTimeout(function(){b.classList.remove('pulse')},4000)},700)}
+
+/* ---------- custos do mês ---------- */
+var SUG=['Aluguel','Energia','Água','Gás','Internet','Telefone','Salários','MEI e contador','Embalagens','Divulgação','Transporte','Maquininha'];
+function ctot(){return fixos.reduce(function(a,r){return a+(+r[1]||0)},0)}
+function cus(){var used=fixos.map(function(r){return norm(r[0])});
+$('cs').innerHTML=fixos.length?'<div class="cl">'+fixos.map(function(r,i){return '<div class="crw"><label class="cn"><span class="sr">Nome do custo</span><input data-i="'+i+'" data-f="0" value="'+esc(r[0])+'" placeholder="Nome do custo"></label><label class="qi cv"><span class="pre">R$</span><input data-i="'+i+'" data-f="1" type="text" inputmode="decimal" value="'+(r[1]?String(r[1].toFixed(2)).replace('.',','):'')+'" placeholder="0,00" aria-label="Valor de '+esc(r[0])+'"></label><button class="lk xr" data-i="'+i+'" aria-label="Remover '+esc(r[0])+'">Remover</button></div>'}).join('')+'</div>':'<div class="empty">Nenhum custo cadastrado ainda.<br>Toque em uma sugestão abaixo ou em <b>+ Novo custo</b>.</div>';
+$('csg').innerHTML=SUG.filter(function(s){return used.indexOf(norm(s))<0}).map(function(s){return '<button class="chip" data-s="'+esc(s)+'">+ '+esc(s)+'</button>'}).join('');
+ctu(true);
+$('cs').querySelectorAll('input').forEach(function(x){x.oninput=function(){var r=fixos[+x.dataset.i];if(x.dataset.f==='0')r[0]=x.value;else r[1]=num(x.value)||0;save();ctu()};x.onblur=function(){if(x.dataset.f==='1'&&x.value){x.value=(fixos[+x.dataset.i][1]||0).toFixed(2).replace('.',',')}}});
+$('cs').querySelectorAll('.xr').forEach(function(b){b.onclick=function(){var r=fixos[+b.dataset.i];if(!confirm('Remover "'+(r[0]||'este custo')+'"?'))return;fixos.splice(+b.dataset.i,1);save();cus();toast('Custo removido')}});
+$('csg').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){addCusto(b.dataset.s)}})}
+function ctu(first){var t=ctot(),n=fixos.filter(function(r){return r[1]>0}).length;count($('ct1'),t,brl);$('ct2').textContent=n;
+var dd=new Date(cy,cm+1,0).getDate();count($('ct3'),t/dd,brl)}
+function addCusto(nome){fixos.push([nome||'',0]);save();cus();var ins=$('cs').querySelectorAll('.crw');var last=ins[ins.length-1];if(last){last.querySelector(nome?'[data-f="1"]':'[data-f="0"]').focus();reveal([last])}}
+$('nc').onclick=function(){addCusto('')};
 $('spk').onclick=function(){speak(todayK())};$('ics').onclick=ics;
 var tipEl=document.createElement('div');tipEl.id='tip';tipEl.className='tip';document.body.appendChild(tipEl);
 if('speechSynthesis' in window)speechSynthesis.getVoices();
 
-cal();day();stk();gr();hero();money();ind(true);reveal(document.querySelectorAll('#ped .rv'));$('sq').oninput=function(){fq=this.value;stk()};document.querySelectorAll('.gt').forEach(function(b){b.onclick=function(){gt=b.dataset.g;gr()}});
+cal();day();stk();gr();cus();hero();money();ind(true);reveal(document.querySelectorAll('#ped .rv'));$('sq').oninput=function(){fq=this.value;stk()};document.querySelectorAll('.gt').forEach(function(b){b.onclick=function(){gt=b.dataset.g;gr()}});
 $('ai').onclick=function(){formIns()};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});

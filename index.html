@@ -40,6 +40,7 @@
 <button data-p="ped" class="on" aria-current="page" aria-label="Pedidos"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28Q9 19 26 17L47 31V43L13 39Q8 38 8 33Z" fill="#fbd3d6"/><path d="M8 28L47 35"/><path d="M9 37q4-5 8 0t8 0t8 0t8 0"/><circle cx="25" cy="11.5" r="4.5" fill="#fff"/><path d="M25 7Q25 3 30 2"/><path d="M13 40Q38 45 45 47Q49 50 48 55"/><circle cx="47" cy="60" r=".6"/></svg></span><span class="tx">Pedidos</span><span class="ts">Pedidos</span></button>
 <button data-p="rec" aria-label="Fichas e cardápio"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42C18 28 30 12 45 12C53 12 53 20 49 27C45 35 36 42 27 46Z" fill="#fbd3d6"/><path d="M29 40C26 30 34 19 45 16"/><path d="M28 44C36 38 45 29 49 21"/><path d="M10 53L24 40L30 46L17 59Q12 60 10 55Z" fill="#fbd3d6"/><circle cx="12" cy="62" r=".6"/></svg></span><span class="tx">Fichas e cardápio</span><span class="ts">Fichas</span></button>
 <button data-p="est" aria-label="Estoque"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 22L47 10Q52 5 57 10Q61 16 55 22L45 33Z" fill="#fbd3d6"/><path d="M38 30L11 55"/><path d="M43 35L16 60"/></svg></span><span class="tx">Estoque</span><span class="ts">Estoque</span></button>
+<button data-p="cus" aria-label="Custos"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 52V25C17 14 24 7 33 7C42 7 48 14 48 23V33L52 29C55 26 60 28 59 33C58 37 54 41 48 47V52Z" fill="#fbd3d6"/><path d="M17 52H48"/><path d="M14 58Q15 54 17 52"/><circle cx="13" cy="61" r=".6"/></svg></span><span class="tx">Custos do mês</span><span class="ts">Custos</span></button>
 </nav>
 <main>
 <header class="mtop"><svg class="mk" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
@@ -103,6 +104,13 @@
 <div class="card rv"><div class="row"><h3>Gráficos</h3><div class="gtabs" role="tablist"><button class="btn soft gt on" data-g="c" role="tab">Custo (R$)</button><button class="btn soft gt" data-g="f" role="tab">Físico</button></div></div><div id="gb"></div></div>
 <div class="row tools rv"><label class="sbar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="sq" type="search" placeholder="Buscar insumo" aria-label="Buscar insumo"></label><button class="btn" id="ai">+ Novo insumo</button></div>
 <div class="card rv" id="sk"></div>
+</section>
+
+<section class="pg" id="cus">
+<div class="ph rv"><h1>Custos do mês</h1><p class="sub">Cadastre seus gastos fixos do mês, como aluguel, luz e salários. O total entra no gráfico “Custo do mês”, na página Pedidos.</p></div>
+<div class="kpis"><div class="kc rv"><span class="m">Total por mês</span><b id="ct1"></b></div><div class="kc rv"><span class="m">Custo por dia</span><b id="ct3"></b></div><div class="kc rv"><span class="m">Custos com valor</span><b id="ct2"></b></div></div>
+<div class="card rv"><div class="row"><h3>Seus custos</h3><button class="btn" id="nc">+ Novo custo</button></div><div id="cs"></div>
+<div class="sgw"><p class="m">Sugestões para adicionar rápido:</p><div class="chips" id="csg"></div></div></div>
 </section>
 
 </main></div>
