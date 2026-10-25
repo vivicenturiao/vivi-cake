@@ -3,48 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#4a2f3d">
+<meta name="theme-color" content="#3a2530">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ateliê">
+<meta name="apple-mobile-web-app-title" content="Vivi Cake">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="icon" href="icons/icon-192.png">
-<title>Ateliê de Bolos — gestão</title>
+<title>Vivi Cake — gestão</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..700;1,6..96,500&family=Figtree:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js" defer></script>
 </head>
 <body>
 <div class="app">
-<nav><span class="lg">Ateliê</span>
-<button data-p="ped" class="on" title="Pedidos">◫</button>
-<button data-p="rec" title="Fichas e cardápio">❦</button>
-<button data-p="est" title="Estoque">▤</button></nav>
+<nav aria-label="Seções">
+<div class="brand"><svg class="mk" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
+<path d="M58 44H112L158 196L150 222Z"/>
+<path d="M152 246L146 246L58 44H76L158 226Z" />
+<path d="M146 246L150 246L226 46L220 46Z"/>
+<path d="M30 40H120V45H30Z"/><path d="M200 40H250V45H200Z"/>
+</g>
+<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<path d="M176 176C186 108 226 44 296 20C318 13 330 18 318 26" stroke-width="3"/>
+<path d="M44 218C20 210 18 184 40 172C76 154 112 178 140 196C178 220 222 234 262 220C292 210 312 186 328 160" stroke-width="4"/>
+<path d="M327 162L344 136" stroke-width="7"/>
+<path d="M336 140L351 151" stroke-width="3.5"/>
+<path d="M346 134C332 108 340 70 368 56C394 44 410 70 400 98C392 118 370 130 346 134Z" stroke-width="3"/>
+<path d="M346 134C352 104 360 78 372 56" stroke-width="2.6"/>
+<path d="M346 134C370 114 388 88 390 62" stroke-width="2.6"/>
+<path d="M346 134C340 112 346 84 360 62" stroke-width="2.4"/>
+</g></svg><span class="wm">Vivi Cake</span></div>
+<span class="ind" aria-hidden="true"></span>
+<button data-p="ped" class="on" aria-current="page" aria-label="Pedidos"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28Q9 19 26 17L47 31V43L13 39Q8 38 8 33Z" fill="#fbd3d6"/><path d="M8 28L47 35"/><path d="M9 37q4-5 8 0t8 0t8 0t8 0"/><circle cx="25" cy="11.5" r="4.5" fill="#fff"/><path d="M25 7Q25 3 30 2"/><path d="M13 40Q38 45 45 47Q49 50 48 55"/><circle cx="47" cy="60" r=".6"/></svg></span><span class="tx">Pedidos</span><span class="ts">Pedidos</span></button>
+<button data-p="rec" aria-label="Fichas e cardápio"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42C18 28 30 12 45 12C53 12 53 20 49 27C45 35 36 42 27 46Z" fill="#fbd3d6"/><path d="M29 40C26 30 34 19 45 16"/><path d="M28 44C36 38 45 29 49 21"/><path d="M10 53L24 40L30 46L17 59Q12 60 10 55Z" fill="#fbd3d6"/><circle cx="12" cy="62" r=".6"/></svg></span><span class="tx">Fichas e cardápio</span><span class="ts">Fichas</span></button>
+<button data-p="est" aria-label="Estoque"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 22L47 10Q52 5 57 10Q61 16 55 22L45 33Z" fill="#fbd3d6"/><path d="M38 30L11 55"/><path d="M43 35L16 60"/></svg></span><span class="tx">Estoque</span><span class="ts">Estoque</span></button>
+</nav>
 <main>
+<header class="mtop"><svg class="mk" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
+<path d="M58 44H112L158 196L150 222Z"/>
+<path d="M152 246L146 246L58 44H76L158 226Z" />
+<path d="M146 246L150 246L226 46L220 46Z"/>
+<path d="M30 40H120V45H30Z"/><path d="M200 40H250V45H200Z"/>
+</g>
+<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<path d="M176 176C186 108 226 44 296 20C318 13 330 18 318 26" stroke-width="3"/>
+<path d="M44 218C20 210 18 184 40 172C76 154 112 178 140 196C178 220 222 234 262 220C292 210 312 186 328 160" stroke-width="4"/>
+<path d="M327 162L344 136" stroke-width="7"/>
+<path d="M336 140L351 151" stroke-width="3.5"/>
+<path d="M346 134C332 108 340 70 368 56C394 44 410 70 400 98C392 118 370 130 346 134Z" stroke-width="3"/>
+<path d="M346 134C352 104 360 78 372 56" stroke-width="2.6"/>
+<path d="M346 134C370 114 388 88 390 62" stroke-width="2.6"/>
+<path d="M346 134C340 112 346 84 360 62" stroke-width="2.4"/>
+</g></svg><span class="wm">Vivi Cake</span></header>
 
 <section class="pg on" id="ped">
-<h1>Pedidos de bolo</h1><p class="sub">Toque em um dia para ver pedido e cartão do cliente. Tudo fica salvo neste aparelho.</p>
-<div class="g c2" style="grid-template-columns:1.1fr 1fr">
-<div class="card"><div class="row"><button class="btn soft" id="pv">‹</button><h3 id="mt"></h3><button class="btn soft" id="nx">›</button></div><div class="cal" id="cal"></div></div>
-<div class="card" id="dp"></div>
+<div class="ph rv"><h1>Pedidos</h1><p class="sub">Escolha um dia no calendário para ver os pedidos e cadastrar novos. Tudo fica salvo neste aparelho.</p></div>
+<div class="hero rv"><svg class="hv" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
+<path d="M58 44H112L158 196L150 222Z"/>
+<path d="M152 246L146 246L58 44H76L158 226Z" />
+<path d="M146 246L150 246L226 46L220 46Z"/>
+<path d="M30 40H120V45H30Z"/><path d="M200 40H250V45H200Z"/>
+</g>
+<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<path d="M176 176C186 108 226 44 296 20C318 13 330 18 318 26" stroke-width="3"/>
+<path d="M44 218C20 210 18 184 40 172C76 154 112 178 140 196C178 220 222 234 262 220C292 210 312 186 328 160" stroke-width="4"/>
+<path d="M327 162L344 136" stroke-width="7"/>
+<path d="M336 140L351 151" stroke-width="3.5"/>
+<path d="M346 134C332 108 340 70 368 56C394 44 410 70 400 98C392 118 370 130 346 134Z" stroke-width="3"/>
+<path d="M346 134C352 104 360 78 372 56" stroke-width="2.6"/>
+<path d="M346 134C370 114 388 88 390 62" stroke-width="2.6"/>
+<path d="M346 134C340 112 346 84 360 62" stroke-width="2.4"/>
+</g></svg>
+<div class="hero-t"><p class="hello" id="hi">Olá, Vivi</p><h2 id="hs"></h2>
+<div class="hero-a"><button class="btn car" id="spk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>Ouvir pedidos de hoje</button><button class="btn ghost" id="ics"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Baixar agenda (.ics)</button><button class="btn ghost" id="dly"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Lembrete diário no Google Agenda</button></div></div>
+<div class="stats" id="hst"></div>
+</div>
+<div class="money"><div class="card rv" id="fat"></div><div class="card rv" id="cst"></div></div>
+<div class="g c2 pedg">
+<div class="card rv"><div class="row"><button class="btn soft ico" id="pv" aria-label="Mês anterior">‹</button><h3 id="mt"></h3><button class="btn soft ico" id="nx" aria-label="Próximo mês">›</button></div><div class="cal" id="cal"></div></div>
+<div class="card rv" id="dp" aria-live="polite"></div>
 </div>
 </section>
 
 <section class="pg" id="rec">
-<h1>Fichas técnicas &amp; cardápio</h1><p class="sub">Cada aba gera um arquivo Word (.docx) para baixar.</p>
-<div class="g c2" style="grid-template-columns:1.2fr 1fr">
-<div class="card float"><div class="fh"><span class="tab">Fichas técnicas</span><button class="btn dlb" data-k="f">⬇ Baixar Word</button></div><div id="fl"></div></div>
-<div class="card float"><div class="fh"><span class="tab">Cardápio</span><button class="btn dlb" data-k="c">⬇ Baixar Word</button></div><div id="cd"></div></div>
+<div class="ph rv"><h1>Fichas técnicas e cardápio</h1><p class="sub">Cadastre suas receitas e os itens do cardápio. Cada um pode ser baixado em Word.</p></div>
+<label class="sbar rv"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="rq" type="search" placeholder="Buscar ficha ou bolo" aria-label="Buscar ficha ou item do cardápio"></label><div class="m" id="rc"></div>
+<div class="g c2 recg">
+<div class="card float rv"><div class="fh"><h2 class="tab">Fichas técnicas</h2><div class="hb"><button class="btn soft" id="nf">+ Nova ficha</button><button class="btn dlb" data-k="f">Baixar todas</button></div></div><div id="fl"></div></div>
+<div class="card float rv"><div class="fh"><h2 class="tab">Cardápio</h2><div class="hb"><button class="btn soft" id="ni">+ Novo item</button><button class="btn dlb" data-k="c">Baixar cardápio</button></div></div><div id="cd"></div></div>
 </div>
 </section>
 
 <section class="pg" id="est">
-<h1>Estoque de matéria-prima</h1><p class="sub">Use + e − para ajustar. A barra fica rosa-escura quando está no mínimo ou abaixo.</p>
-<button class="btn" id="ai" style="margin-bottom:10px">+ Novo insumo</button>
-<div class="card" id="sk"></div>
+<div class="ph rv"><h1>Estoque</h1><p class="sub">Digite a quantidade de cada insumo. O valor, os gráficos e os alertas de reposição atualizam na hora.</p></div>
+<div class="kpis" id="kp"></div>
+<div class="card rv"><div class="row"><h3>Gráficos</h3><div class="gtabs" role="tablist"><button class="btn soft gt on" data-g="c" role="tab">Custo (R$)</button><button class="btn soft gt" data-g="f" role="tab">Físico</button></div></div><div id="gb"></div></div>
+<div class="row tools rv"><label class="sbar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="sq" type="search" placeholder="Buscar insumo" aria-label="Buscar insumo"></label><button class="btn" id="ai">+ Novo insumo</button></div>
+<div class="card rv" id="sk"></div>
 </section>
 
 </main></div>
-<div class="toast" id="ts"></div>
+<div class="toast" id="ts" role="status"></div>
 <script src="app.js"></script>
 </body>
 </html>
