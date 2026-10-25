@@ -244,6 +244,26 @@ textarea:focus,select:focus{outline:none;border-color:var(--car);box-shadow:0 0 
 .chip:hover{background:var(--blush)}
 @media (max-width:860px){.crw{grid-template-columns:1fr 120px;}.crw .xr{grid-column:1/-1;justify-self:start;margin-top:-4px}nav button{font-size:11.5px;padding:0 4px;gap:4px}nav .ic{width:28px;height:28px}nav .ic svg{width:19px;height:19px}}
 @media (max-width:400px){nav .ts{display:none}nav button{gap:0}}
+/* cardápio no modelo da Vivi */
+.cdtabs{display:inline-flex;margin:4px 0 6px}
+.menu{background:linear-gradient(180deg,#fde9ef,#fbeef3);border:2px solid #ef9ab5;border-radius:26px;padding:26px 22px 22px;color:#2b1d22;font-family:"Alegreya",Georgia,serif;position:relative}
+.mhd{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:14px}
+.mhd .mk{width:110px;height:auto;color:#b98d65}
+.ma{font:500 13px var(--sans);letter-spacing:.5em;margin-top:6px;display:flex;align-items:center;gap:10px}
+.ma::before,.ma::after{content:"";width:46px;height:1px;background:#2b1d22}
+.mv{font:44px/1 "Great Vibes","Brush Script MT",cursive;margin-top:2px}
+.msec{display:flex;flex-direction:column;align-items:center;margin:16px 0 8px}
+.msec h4{margin:0;color:#e2557e;font:700 28px "Alegreya",Georgia,serif;letter-spacing:.12em}
+.mu{align-self:flex-end;background:#f8d3df;font-size:12.5px;padding:3px 10px;letter-spacing:.06em;margin-top:2px}
+.mi{display:flex;align-items:baseline;gap:6px;font-size:18px;line-height:1.75}
+.mi span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%}
+.mi i{flex:1;border-bottom:3px dotted #e2557e;transform:translateY(-5px);min-width:16px}
+.mi b{font-weight:400;color:#e2557e;white-space:nowrap}
+.mdiv{border:0;border-top:2px solid #e2557e;width:76%;margin:12px auto}
+.madd{margin:18px -22px 0;background:#f6c6d6;color:#d6336c;font-weight:700;text-align:center;padding:9px 14px;font-size:16px}
+.madd i{display:none}
+.mempty{text-align:center;color:#8a7580;font-family:var(--sans);font-size:14px}
+@media (max-width:420px){.msec h4{font-size:22px}.mi{font-size:16px}.madd{font-size:14px}}
 /* preço sugerido */
 .pres{margin-top:14px}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}

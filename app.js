@@ -54,10 +54,10 @@ var DLI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 
 function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
 function rl(){var q=norm($('rq').value.trim()),a=0,b=0;
 $('fl').innerHTML=fichas.map(function(f,k){if(q&&norm(f.n+' '+(f.t||'')+' '+f.i.map(function(x){return x[0]}).join(' ')).indexOf(q)<0)return '';a++;return '<div class="fc"><div class="row"><div><div class="t">'+f.n+'</div><div class="meta"><span>'+f.r+'</span>'+(f.va?'<span>Validade '+f.va.toLowerCase()+'</span>':'')+(f.c&&f.c!=='—'?'<span>Custo <b>'+f.c+'</b></span>':'')+(f.pv?'<span>Venda <b>'+f.pv+'</b></span>':'')+'</div></div><div class="cr"><button class="btn ghost sm ef" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="f:'+k+'">'+DLI+'Baixar ficha</button></div></div><div class="ia"><button class="lk xf" data-k="'+k+'">Remover ficha</button></div><details><summary class="m">Ver ficha completa</summary>'+fv(f)+'</details></div>'}).join('')||(fichas.length?'<div class="empty">Nenhuma ficha encontrada para essa busca.</div>':'<div class="empty">Nenhuma ficha técnica ainda.<br>Toque em <b>+ Nova ficha</b> para cadastrar a primeira receita.</div>');
-$('cd').innerHTML=cardapio.map(function(c,k){if(q&&norm(c[0]+' '+c[1]).indexOf(q)<0)return '';b++;return '<div class="fc"><div class="row"><div><div class="t">'+c[0]+'</div><div class="meta"><span>'+c[1]+'</span></div></div><div class="cr"><span class="tagr">'+brl(c[2])+'</span><button class="btn ghost sm ps" data-k="'+k+'">'+TAG+'Preço sugerido</button><button class="btn ghost sm ec" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="c:'+k+'">'+DLI+'Baixar item do cardápio</button></div></div><div class="ia"><button class="lk xc" data-k="'+k+'">Remover do cardápio</button></div></div>'}).join('')||(cardapio.length?'<div class="empty">Nenhum item encontrado para essa busca.</div>':'<div class="empty">O cardápio está vazio.<br>Toque em <b>+ Novo item</b> ou cadastre uma ficha com preço de venda.</div>');
+$('cd').innerHTML=cardapio.map(function(c,k){if(q&&norm(c[0]+' '+c[1]).indexOf(q)<0)return '';b++;return '<div class="fc"><div class="row"><div><div class="t">'+esc(c[0])+'</div><div class="meta">'+(c[3]?'<span>'+esc(c[3])+'</span>':'')+(c[1]?'<span>'+esc(c[1])+'</span>':'')+'</div></div><div class="cr"><span class="tagr">'+brl(c[2])+uLbl(c[4])+'</span><button class="btn ghost sm ps" data-k="'+k+'">'+TAG+'Preço sugerido</button><button class="btn ghost sm ec" data-k="'+k+'">'+EDI+'Editar</button><button class="btn soft sm dlb" data-k="c:'+k+'">'+DLI+'Baixar item do cardápio</button></div></div><div class="ia"><button class="lk xc" data-k="'+k+'">Remover do cardápio</button></div></div>'}).join('')||(cardapio.length?'<div class="empty">Nenhum item encontrado para essa busca.</div>':'<div class="empty">O cardápio está vazio.<br>Toque em <b>+ Novo item</b> ou cadastre uma ficha com preço de venda.</div>');
 document.querySelectorAll('.dlb[data-k="f"]').forEach(function(b){b.disabled=!fichas.length});document.querySelectorAll('.dlb[data-k="c"]').forEach(function(b){b.disabled=!cardapio.length});
 $('rc').textContent=q?'Encontrado: '+a+' de '+fichas.length+' fichas e '+b+' de '+cardapio.length+' itens do cardápio':''}
-rl();$('rq').oninput=rl;
+rl();$('rq').oninput=rl;var _rl=rl;rl=function(){_rl();if(typeof cdView==='function'&&cdv==='p')cdView()};
 var gt='c',fq='';
 var val=function(e){return e[1]*(e[4]||0)},isLow=function(e){return e[2]>0&&e[1]<=e[2]};
 var nf=function(v){return (Math.round(v*100)/100).toString().replace('.',',')};
@@ -89,7 +89,7 @@ var t1=tb([2200,7438],R.map(function(r){return tc(2200,r[0],h)+tc(7438,r[1],{j:'
 return par('VIVI CAKE',{b:1,z:30,c:'B5586F',a:40})+par('Ficha técnica',{c:'9A8590',a:120})+t1+GAP+ig('INGREDIENTES',f.i)+(f.e&&f.e.length?GAP+ig('EMBALAGEM',f.e):'')+GAP+sec('UTENSÍLIOS',fill(f.u,5))+GAP+sec('PRÉ-PRODUÇÃO',fill(f.p,6))+GAP+sec('FINALIZAÇÃO',fill(f.f,3))}
 function mk(kind){var b=[];
 if(kind[0]==='f'){var x=kind.split(':')[1],L=x===undefined?fichas:[fichas[+x]];b.push(L.map(fx).join('<w:p><w:r><w:br w:type="page"/></w:r></w:p>'),GAP)}
-else{var y=kind.split(':')[1],cx=y===undefined?cardapio:[cardapio[+y]];b.push(par('Vivi Cake — Cardápio',{b:1,z:40,c:'B5586F',a:240}));cx.forEach(function(c){b.push(par(c[0]+' — '+brl(c[2]),{b:1,z:26}),par(c[1],{c:'9A8590',a:200}))})}
+else{var y=kind.split(':')[1],cx=y===undefined?cardapio:[cardapio[+y]];b.push(par('Vivi Cake — Cardápio',{b:1,z:40,c:'B5586F',a:240}));var lc=null;cx.forEach(function(c){var ct=c[3]||'';if(ct!==lc&&y===undefined){b.push(par(ct||'Cardápio',{b:1,z:30,c:'E2557E',a:120}));lc=ct}b.push(par(c[0]+' — '+brl(c[2])+uLbl(c[4]),{b:1,z:26,a:c[1]?40:160}));if(c[1])b.push(par(c[1],{c:'9A8590',a:160}))})}
 return b.join('')}
 function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function fname(kind){var x=kind.split(':')[1],f=kind[0]==='f';if(x===undefined)return f?'vivi-cake-fichas-tecnicas.docx':'vivi-cake-cardapio.docx';return (f?'':'cardapio-')+slug(f?fichas[+x].n:cardapio[+x][0])+'.docx'}
@@ -195,9 +195,12 @@ var c=num($('xc').value),pv=num($('xp').value);
 var o={n:n,t:$('xt').value.trim(),r:$('xr').value.trim()||'1 unidade',va:$('xv').value.trim(),c:c==null?'—':brl(c),pv:pv==null?'':brl(pv),i:triples($('xi').value),e:triples($('xe').value),u:lines($('xu').value),p:lines($('xpp').value),f:lines($('xf').value)};
 if(k==null){fichas.push(o);if(pv!=null&&$('xm').checked&&!cardapio.some(function(x){return norm(x[0])===norm(n)}))cardapio.push([n,o.i.slice(0,4).map(function(x){return x[0]}).join(' + ')||o.t||'',pv])}else{var old=norm(fichas[k].n);cardapio.forEach(function(x){if(norm(x[0])===old){x[0]=o.n;if(pv!=null)x[2]=pv}});fichas[k]=o}
 save();rl();money();toast(k==null?'Ficha cadastrada':'Ficha atualizada')},k==null?'Cadastrar ficha':'Salvar alterações')}
-function formItem(k){var c=k==null?['','',null]:cardapio[k];
-openSheet(k==null?'Novo item do cardápio':'Editar item do cardápio',fld('yn','Nome *',c[0],{ph:'Ex.: Vulcão Kinder'})+fld('yd','Descrição',c[1],{ph:'Massa de chocolate + cobertura trufada'})+fld('yp','Preço (R$) *',c[2]==null?'':String(c[2]).replace('.',','),{im:'decimal',ph:'85,00'}),
-function(){var n=$('yn').value.trim(),p=num($('yp').value);if(!n||p==null){toast('Preencha nome e preço');return false}var o=[n,$('yd').value.trim(),p];if(k==null)cardapio.push(o);else cardapio[k]=o;save();rl();toast(k==null?'Item adicionado ao cardápio':'Item atualizado')},k==null?'Adicionar ao cardápio':'Salvar alterações')}
+function catList(){return cardapio.map(function(c){return c[3]||''}).filter(function(x,i,a){return x&&a.indexOf(x)===i})}
+function lastCat(){return cardapio.length?(cardapio[cardapio.length-1][3]||''):'Tradicionais'}
+function uLbl(u){return u==='kg'?' / kg':u==='fatia'?' / fatia':''}
+function formItem(k){var c=k==null?['','',null,lastCat(),'kg',false]:cardapio[k],cats=catList();
+openSheet(k==null?'Novo item do cardápio':'Editar item do cardápio',fld('yn','Nome *',c[0],{ph:'Ex.: Ninho trufado'})+'<div class="two">'+fld('yc','Seção do cardápio',c[3]||'',{ph:'Tradicionais'})+'<label class="fl">Preço por<select id="yu"><option value="kg"'+(c[4]==='kg'?' selected':'')+'>Kg</option><option value="un"'+(c[4]==='un'?' selected':'')+'>Unidade</option><option value="fatia"'+(c[4]==='fatia'?' selected':'')+'>Fatia</option></select></label></div><datalist id="ycl">'+cats.concat(['Tradicionais','Especiais','Bolos vulcão','Adicionais']).filter(function(x,i,a){return a.indexOf(x)===i}).map(function(x){return '<option value="'+esc(x)+'">'}).join('')+'</datalist>'+fld('yp','Preço (R$) *',c[2]==null?'':String(c[2]).replace('.',','),{im:'decimal',ph:'78,00'})+fld('yd','Descrição (opcional)',c[1],{ph:'Aparece só na lista e no Word'})+'<label class="ck"><input type="checkbox" id="ys"'+(c[5]?' checked':'')+'> Linha divisória antes deste item no cardápio</label><p class="hint">Use a seção <b>Adicionais</b> para extras (ex.: frutas). Eles aparecem na faixa de baixo do cardápio.</p>',
+function(){var n=$('yn').value.trim(),p=num($('yp').value);if(!n||p==null){toast('Preencha nome e preço');return false}var o=[n,$('yd').value.trim(),p,$('yc').value.trim(),$('yu').value,$('ys').checked];if(k==null)cardapio.push(o);else cardapio[k]=o;save();rl();toast(k==null?'Item adicionado ao cardápio':'Item atualizado')},k==null?'Adicionar ao cardápio':'Salvar alterações');$('yc').setAttribute('list','ycl')}
 function formIns(){var us=['kg','g','L','ml','und'];
 openSheet('Novo insumo',fld('zn','Nome *','',{ph:'Ex.: Farinha de trigo'})+'<label class="fl">Unidade<select id="zu">'+us.map(function(u){return '<option>'+u+'</option>'}).join('')+'</select></label><div class="two">'+fld('zq','Quantidade em estoque','',{im:'decimal',ph:'0'})+fld('zm','Estoque mínimo','',{im:'decimal',ph:'0'})+'</div>'+fld('zc','Custo por unidade (R$)','',{im:'decimal',ph:'Ex.: 4,49 por kg'}),
 function(){var n=$('zn').value.trim();if(!n){toast('Dê um nome para o insumo');return false}estoque.push([n,num($('zq').value)||0,num($('zm').value)||0,$('zu').value,num($('zc').value)||0]);estoque.sort(function(a,b){return a[0].localeCompare(b[0],'pt')});save();stk();gr();toast('Insumo adicionado')},'Adicionar insumo')}
@@ -205,7 +208,7 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 if(b.classList.contains('ef'))formFicha(k);else if(b.classList.contains('ec'))formItem(k);
 else if(b.classList.contains('xf')){if(confirm('Remover a ficha "'+fichas[k].n+'"?')){fichas.splice(k,1);save();rl();money();toast('Ficha removida')}}
 else if(confirm('Remover "'+cardapio[k][0]+'" do cardápio?')){cardapio.splice(k,1);save();rl();toast('Item removido do cardápio')}});
-$('nf').onclick=function(){formFicha()};$('ni').onclick=function(){formItem()};
+$('nf').onclick=function(){formFicha()};$('imf').onclick=function(){$('bkf').click()};$('ni').onclick=function(){formItem()};
 var APP=/github\.io$/.test(location.hostname)?location.origin+location.pathname:'https://vivicenturiao.github.io/vivi-cake/';
 function daily(){var n=new Date(td.getFullYear(),td.getMonth(),td.getDate()+1),k=key(n.getFullYear(),n.getMonth(),n.getDate());
 var u='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Vivi Cake: pedidos do dia')+'&dates='+stamp(k,7,0)+'/'+stamp(k,7,15)+'&ctz=America/Sao_Paulo&recur='+encodeURIComponent('RRULE:FREQ=DAILY')+'&details='+encodeURIComponent('Toque para ver as entregas e os bolos de hoje:\n'+APP+'?hoje=1');
@@ -238,6 +241,7 @@ async function backup(){var d={app:'vivi-cake',versao:1,salvoEm:new Date().toISO
 var ok=await out(new Blob([JSON.stringify(d,null,1)],{type:'application/json'}),'vivi-cake-backup-'+todayK()+'.json');
 if(ok!==false){try{localStorage.setItem(BKK,todayK())}catch(e){}bkInfo();bkBanner();toast('Backup criado. Guarde no Google Drive, na pasta Sistema Vivi Cake')}}
 function restore(file){if(!file)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result),x=d&&d.dados;if(!x||d.app!=='vivi-cake')throw 0;
+if(d.tipo==='fichas'){var nw=x.fichas||[],add=0,upd=0,ca=0;nw.forEach(function(f){var i=fichas.findIndex(function(y){return norm(y.n)===norm(f.n)});if(i>=0){fichas[i]=f;upd++}else{fichas.push(f);add++}});(x.cardapio||[]).forEach(function(c){var i=cardapio.findIndex(function(y){return norm(y[0])===norm(c[0])});if(i>=0)cardapio[i]=c;else cardapio.push(c);ca++});save();rl();money();if(ca)setTimeout(function(){toast(ca+' itens no cardápio e '+(add+upd)+' receitas importadas')},2700);toast((add?add+(add>1?' receitas adicionadas':' receita adicionada'):'')+(add&&upd?' e ':'')+(upd?upd+(upd>1?' atualizadas':' atualizada'):''));return}
 var n=(x.fichas||[]).length,p=Object.keys(x.orders||{}).reduce(function(a,k){return a+x.orders[k].length},0);
 if(!confirm('Restaurar o backup de '+String(d.salvoEm||'').slice(0,10).split('-').reverse().join('/')+'?\n'+p+' pedidos e '+n+' fichas.\n\nIsso substitui o que está neste aparelho agora.'))return;
 orders=x.orders||{};fichas=x.fichas||[];cardapio=x.cardapio||[];estoque=x.estoque||[];fixos=x.fixos||[];save();cal();day();rl();stk();gr();cus();hero();money();toast('Backup restaurado')}catch(e){toast('Esse arquivo não é um backup da Vivi Cake')}};r.readAsText(file)}
@@ -298,6 +302,36 @@ el.innerHTML='<div class="pgrid"><div class="pbx"><span class="m">Preço mínimo
 +'<p class="m" style="margin:10px 0 0">Conta usada (markup): custo ÷ (1 − custos fixos − taxa − lucro). Os preços são arredondados para terminar em ,90.</p>'}
 ['pc','pl','pf','pt','pa'].forEach(function(i){$(i).oninput=calc});calc()}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.ps');if(b)priceSheet(+b.dataset.k)});
+
+/* ---------- cardápio: prévia no modelo da Vivi ---------- */
+var cdv='l';
+function pz(v){v=+v||0;return 'R$ '+(v%1?v.toFixed(2).replace('.',','):v)}
+function groups(){var g=[],ad=[];cardapio.forEach(function(c){var ct=(c[3]||'Cardápio').trim();if(norm(ct)==='adicionais'){ad.push(c);return}var x=g.filter(function(y){return y.n===ct})[0];if(!x){x={n:ct,it:[]};g.push(x)}x.it.push(c)});return {g:g,ad:ad}}
+function unitHead(it){var u=it.map(function(c){return c[4]||'un'});return u.every(function(x){return x==='kg'})?'Valor por Kg':u.every(function(x){return x==='fatia'})?'Valor por fatia':''}
+function menuHTML(){var G=groups(),lg=document.querySelector('.mtop .mk');var h='<div class="menu"><div class="mhd">'+(lg?lg.outerHTML:'')+'<span class="ma">A T E L I Ê</span><span class="mv">Vivi cake</span></div>';
+if(!cardapio.length)return h+'<p class="mempty">Cadastre itens do cardápio para ver a prévia.</p></div>';
+G.g.forEach(function(s){var uh=unitHead(s.it);h+='<div class="msec"><h4>'+esc(s.n.toUpperCase())+'</h4>'+(uh?'<span class="mu">'+uh+'</span>':'')+'</div>';s.it.forEach(function(c){if(c[5])h+='<hr class="mdiv">';h+='<div class="mi"><span>'+esc(c[0])+'</span><i></i><b>'+pz(c[2])+(uh||!c[4]||c[4]==='un'?'':(c[4]==='kg'?'/kg':'/fatia'))+'</b></div>'})});
+G.ad.forEach(function(c){h+='<div class="madd">'+esc(c[0])+' <i></i> + '+pz(c[2])+'</div>'});return h+'</div>'}
+function cdView(){document.querySelectorAll('.cdt').forEach(function(b){b.classList.toggle('on',b.dataset.v===cdv)});$('cd').hidden=cdv!=='l';$('cdp').hidden=cdv!=='p';$('rq').disabled=false;if(cdv==='p'){$('cdp').innerHTML=menuHTML()+'<button class="btn" id="mimg" style="margin-top:12px;width:100%">Baixar imagem do cardápio</button>';$('mimg').onclick=menuPNG;reveal($('cdp').querySelectorAll('.menu'))}}
+document.querySelectorAll('.cdt').forEach(function(b){b.onclick=function(){cdv=b.dataset.v;cdView()}});
+async function menuPNG(){var G=groups();if(!cardapio.length){toast('Cadastre itens primeiro');return}
+try{await Promise.all(['600 64px "Alegreya"','400 36px "Alegreya"','64px "Great Vibes"'].map(function(f){return document.fonts?document.fonts.load(f):0}))}catch(e){}
+var W=1080,hh=440;G.g.forEach(function(s){hh+=116+46+s.it.length*60;s.it.forEach(function(c){if(c[5])hh+=40})});var H=Math.max(1100,hh+(G.ad.length?G.ad.length*80+60:0)+110);
+var cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+var gr=x.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#fde9ef');gr.addColorStop(1,'#fbeef3');x.fillStyle=gr;x.fillRect(0,0,W,H);
+x.strokeStyle='#ef9ab5';x.lineWidth=3;x.beginPath();var m=36,r=34;x.moveTo(m+r,m);x.lineTo(W-m-r,m);x.arc(W-m,m,r,Math.PI,Math.PI/2,true);x.lineTo(W-m,H-m-r);x.arc(W-m,H-m,r,-Math.PI/2,Math.PI,true);x.lineTo(m+r,H-m);x.arc(m,H-m,r,0,-Math.PI/2,true);x.lineTo(m,m+r);x.arc(m,m,r,Math.PI/2,0,true);x.stroke();
+var lg=document.querySelector('.mtop .mk');if(lg){try{var s=new XMLSerializer().serializeToString(lg).replace(/currentColor/g,'#b98d65').replace('<svg','<svg width="404" height="252"');var im=new Image();await new Promise(function(ok,no){im.onload=ok;im.onerror=no;im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)});x.drawImage(im,W/2-110,70,220,137)}catch(e){}}
+x.textAlign='center';x.fillStyle='#2b1d22';x.font='500 30px "Figtree",sans-serif';x.fillText('A   T   E   L   I   Ê',W/2,250);x.strokeStyle='#2b1d22';x.lineWidth=2;x.beginPath();x.moveTo(W/2-330,240);x.lineTo(W/2-190,240);x.moveTo(W/2+190,240);x.lineTo(W/2+330,240);x.stroke();
+x.font='86px "Great Vibes","Brush Script MT",cursive';x.fillText('Vivi cake',W/2,345);
+var y=440,L=110,R=W-100;
+G.g.forEach(function(s){var uh=unitHead(s.it);x.textAlign='center';x.fillStyle='#e2557e';x.font='700 64px "Alegreya",Georgia,serif';var t=s.n.toUpperCase().split('').join(String.fromCharCode(8202));x.fillText(t,W/2,y);
+if(uh){x.font='400 26px "Alegreya",Georgia,serif';var tw=x.measureText(uh).width+36;x.fillStyle='#f8d3df';x.fillRect(R-tw+10,y+12,tw,44);x.fillStyle='#2b1d22';x.textAlign='center';x.fillText(uh,R-tw/2+10,y+43)}
+y+=(uh?116:96);s.it.forEach(function(c){if(c[5]){x.strokeStyle='#e2557e';x.lineWidth=4;x.beginPath();x.moveTo(W/2-310,y-28);x.lineTo(W/2+310,y-28);x.stroke();y+=40}
+x.textAlign='left';x.fillStyle='#2b1d22';x.font='400 40px "Alegreya",Georgia,serif';x.fillText(c[0],L,y);var nw=x.measureText(c[0]).width;
+var pr=pz(c[2])+(uh||!c[4]||c[4]==='un'?'':(c[4]==='kg'?'/kg':'/fatia'));x.font='400 40px "Alegreya",Georgia,serif';var pw=x.measureText(pr).width;x.fillStyle='#e2557e';x.textAlign='right';x.fillText(pr,R,y);
+x.fillStyle='#e2557e';for(var dx=L+nw+14;dx<R-pw-18;dx+=13){x.beginPath();x.arc(dx,y-4,2.6,0,7);x.fill()}y+=60});y+=46});
+if(G.ad.length){y+=20;G.ad.forEach(function(c){x.fillStyle='#f6c6d6';x.fillRect(60,y-46,W-120,66);x.fillStyle='#d6336c';x.textAlign='center';x.font='700 34px "Alegreya",Georgia,serif';x.fillText(c[0]+'.... + '+pz(c[2]),W/2,y);y+=80})}
+cv.toBlob(function(b){out(b,'vivi-cake-cardapio.png').then(function(ok){if(ok)toast('Imagem do cardápio pronta para enviar')})},'image/png')}
 $('spk').onclick=function(){speak(todayK())};$('ics').onclick=ics;
 var tipEl=document.createElement('div');tipEl.id='tip';tipEl.className='tip';document.body.appendChild(tipEl);
 if('speechSynthesis' in window)speechSynthesis.getVoices();

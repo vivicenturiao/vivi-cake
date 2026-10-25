@@ -7,8 +7,9 @@ Painel da confeitaria Vivi Cake. É um site estático (HTML, CSS e JS, sem etapa
 - **Faturamento e custo do mês:** gráficos de pizza do mês aberto no calendário. O custo junta os insumos dos pedidos (pela ficha técnica) e os custos cadastrados na aba Custos. Mostra também o resultado estimado.
 - **Google Agenda:** cada pedido tem **Adicionar ao Google Agenda**, que abre o evento já preenchido. A notificação no celular vem do app Google Agenda. **Baixar agenda (.ics)** exporta todos os pedidos de hoje em diante, com lembretes de 1 dia e 2 horas antes.
 - **Ouvir pedidos:** o app lê em voz alta (pt-BR) os pedidos do dia.
-- **Fichas técnicas e cardápio:** cadastro, edição e remoção pelo app, busca, ficha completa e download em Word de uma ficha, de um item ou de tudo.
+- **Fichas técnicas e cardápio:** cadastro, edição e remoção pelo app, *Importar receitas* (soma receitas de um arquivo às que já existem), busca, ficha completa e download em Word de uma ficha, de um item ou de tudo.
 - **Custos do mês:** aba para cadastrar e editar os gastos fixos (aluguel, luz, salários…), com sugestões rápidas. O total entra no gráfico de custo.
+- **Prévia do cardápio:** no modelo da Vivi Cake (seções, valor por kg, linha pontilhada e faixa de adicionais), com *Baixar imagem do cardápio* (PNG para WhatsApp).
 - **Preço sugerido:** em cada item do cardápio, calcula preço mínimo, sugerido (balcão) e no app de entrega pelo markup: custo ÷ (1 − custos fixos − taxa − lucro), e compara com o preço atual.
 - **Planilha financeira:** botão *Baixar planilha financeira do mês* (Pedidos ou Custos) gera um Excel com Resumo (renda, custo de material, custos fixos, lucro e margem), Pedidos, Custos fixos e Mensal do ano.
 - **Estoque:** quantidade e mínimo digitados direto na tabela, gráficos de custo e físico e alerta de reposição.
@@ -49,4 +50,4 @@ Para o celular avisar (e falar, se o leitor de notificações estiver ativo), ad
 
 Pedidos e estoque ficam no `localStorage` do aparelho: limpar os dados do navegador apaga tudo, e não há sincronização entre aparelhos.
 O app começa vazio: cadastre fichas técnicas (**+ Nova ficha**), itens do cardápio (**+ Novo item**), insumos (**+ Novo insumo**) e pedidos pelo próprio app. Tudo fica salvo no aparelho.
-Ao atualizar arquivos, troque a versão em `sw.js` (`var V='vivicake-v11'`) para o cache renovar.
+Ao atualizar arquivos, troque a versão em `sw.js` (`var V='vivicake-v13'`) para o cache renovar.

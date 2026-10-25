@@ -13,7 +13,7 @@
 <title>Vivi Cake — gestão</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..700;1,6..96,500&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..700;1,6..96,500&family=Figtree:wght@400;500;600;700&family=Alegreya:wght@400;600;700&family=Great+Vibes&display=swap">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js" defer></script>
 </head>
@@ -96,8 +96,8 @@
 <div class="ph rv"><h1>Fichas técnicas e cardápio</h1><p class="sub">Cadastre suas receitas e os itens do cardápio. Cada um pode ser baixado em Word.</p></div>
 <label class="sbar rv"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="rq" type="search" placeholder="Buscar ficha ou bolo" aria-label="Buscar ficha ou item do cardápio"></label><div class="m" id="rc"></div>
 <div class="g c2 recg">
-<div class="card float rv"><div class="fh"><h2 class="tab">Fichas técnicas</h2><div class="hb"><button class="btn soft" id="nf">+ Nova ficha</button><button class="btn dlb" data-k="f">Baixar todas</button></div></div><div id="fl"></div></div>
-<div class="card float rv"><div class="fh"><h2 class="tab">Cardápio</h2><div class="hb"><button class="btn soft" id="ni">+ Novo item</button><button class="btn dlb" data-k="c">Baixar cardápio</button></div></div><div id="cd"></div></div>
+<div class="card float rv"><div class="fh"><h2 class="tab">Fichas técnicas</h2><div class="hb"><button class="btn soft" id="nf">+ Nova ficha</button><button class="btn soft" id="imf">Importar receitas</button><button class="btn dlb" data-k="f">Baixar todas</button></div></div><div id="fl"></div></div>
+<div class="card float rv"><div class="fh"><h2 class="tab">Cardápio</h2><div class="hb"><button class="btn soft" id="ni">+ Novo item</button><button class="btn dlb" data-k="c">Baixar Word</button></div></div><div class="gtabs cdtabs" role="tablist"><button class="btn soft cdt on" data-v="l" role="tab">Lista</button><button class="btn soft cdt" data-v="p" role="tab">Prévia do cardápio</button></div><div id="cd"></div><div id="cdp" hidden></div></div>
 </div>
 </section>
 
