@@ -43,6 +43,7 @@
 <button data-p="cus" aria-label="Custos"><span class="ic"><svg viewBox="0 0 64 64" fill="none" stroke="#c8404f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 52V25C17 14 24 7 33 7C42 7 48 14 48 23V33L52 29C55 26 60 28 59 33C58 37 54 41 48 47V52Z" fill="#fbd3d6"/><path d="M17 52H48"/><path d="M14 58Q15 54 17 52"/><circle cx="13" cy="61" r=".6"/></svg></span><span class="tx">Custos do mês</span><span class="ts">Custos</span></button>
 </nav>
 <main>
+<div class="sync" id="sy" hidden></div>
 <header class="mtop"><svg class="mk" viewBox="10 4 404 252" aria-hidden="true"><g fill="currentColor">
 <path d="M58 44H112L158 196L150 222Z"/>
 <path d="M152 246L146 246L58 44H76L158 226Z" />
@@ -90,6 +91,7 @@
 <div class="card rv" id="dp" aria-live="polite"></div>
 </div>
 <div class="card rv bkc"><div class="row"><div><h3>Backup dos seus dados</h3><p class="m" id="bki" style="margin:4px 0 0"></p></div><div class="hb"><button class="btn soft" id="bkr">Restaurar backup</button><button class="btn" id="bkd">Fazer backup</button></div></div><p class="m" style="margin:10px 0 0">O backup salva pedidos, fichas, cardápio, estoque e custos num arquivo. No celular, escolha <b>Google Drive</b> e a pasta <b>Sistema Vivi Cake</b>. Para recuperar num aparelho novo, use Restaurar backup.</p><input type="file" id="bkf" accept=".json,application/json" hidden></div>
+<div class="card rv bkc" id="syc"></div>
 </section>
 
 <section class="pg" id="rec">
@@ -102,7 +104,7 @@
 </section>
 
 <section class="pg" id="est">
-<div class="ph rv"><h1>Estoque</h1><p class="sub">Digite a quantidade de cada insumo. O valor, os gráficos e os alertas de reposição atualizam na hora.</p></div>
+<div class="ph rv"><h1>Estoque</h1><p class="sub">Para cada insumo: o tamanho da embalagem (ex.: 395 g), quantas unidades você tem e o valor de cada uma. Toque em Editar para mudar o nome ou o estoque mínimo.</p></div>
 <div class="kpis" id="kp"></div>
 <div class="card rv"><div class="row"><h3>Gráficos</h3><div class="gtabs" role="tablist"><button class="btn soft gt on" data-g="c" role="tab">Custo (R$)</button><button class="btn soft gt" data-g="f" role="tab">Físico</button></div></div><div id="gb"></div></div>
 <div class="row tools rv"><label class="sbar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="sq" type="search" placeholder="Buscar insumo" aria-label="Buscar insumo"></label><button class="btn" id="ai">+ Novo insumo</button></div>

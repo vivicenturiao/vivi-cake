@@ -278,6 +278,14 @@ textarea:focus,select:focus{outline:none;border-color:var(--car);box-shadow:0 0 
 .xlr{display:flex;justify-content:flex-end;margin-top:12px}
 #ped.on .xlr{order:3}
 @media (max-width:860px){.xlr{justify-content:flex-start}.xlc .row{flex-direction:column;align-items:flex-start}}
+/* sincronização */
+main{position:relative}
+.sync{position:absolute;right:0;top:6px;z-index:3;display:inline-flex;align-items:center;gap:7px;background:var(--card);box-shadow:var(--sh);border-radius:99px;padding:6px 12px;font-size:12px;color:var(--ink2)}
+.sync[hidden]{display:none}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--s0)}
+.sync.ok i{background:var(--ok)}.sync.busy i{background:var(--car);animation:pl 1s infinite}.sync.off i{background:var(--s2)}.sync.err i{background:var(--bad)}
+#ped.on #syc{order:5}
+@media (max-width:860px){.sync{top:4px;right:2px;font-size:11px;padding:5px 10px}}
 /* backup */
 .bkb{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--car2);color:var(--car-ink);border:1px solid rgba(185,141,101,.35);border-radius:20px;padding:12px 16px;margin-bottom:14px;font-size:14px}
 .bkb[hidden]{display:none}
@@ -318,13 +326,19 @@ textarea:focus,select:focus{outline:none;border-color:var(--car);box-shadow:0 0 
   #ped.on{display:flex;flex-direction:column}#ped .ph{order:0}#ped .hero{order:1}#ped .pedg{order:2}#ped .money{order:3}
   .pie{grid-template-columns:1fr;justify-items:center}.pie .pw{width:150px;height:150px}.lgd{width:100%}
   .stt thead{display:none}.stt,.stt tbody{display:block}
-  .stt tr{display:grid;grid-template-columns:1fr 1fr auto;gap:8px 10px;align-items:end;padding:12px 0;border-top:1px solid var(--line)}
+  .stt tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 10px;align-items:end;padding:12px 0;border-top:1px solid var(--line)}
   .stt td{border:0;padding:0}.stt td:first-child{grid-column:1/-1}
-  .stt td:nth-child(2)::before,.stt td:nth-child(3)::before{display:block;font-size:11.5px;color:var(--mut);margin-bottom:4px}
-  .stt td:nth-child(2)::before{content:"Quantidade"}.stt td:nth-child(3)::before{content:"Mínimo"}
-  .stt .qi{width:100%}.stt .vv{padding-bottom:9px}
+  .stt td:nth-child(2)::before,.stt td:nth-child(3)::before,.stt td:nth-child(4)::before{display:block;font-size:11.5px;color:var(--mut);margin-bottom:4px}
+  .stt td:nth-child(2)::before{content:"Embalagem"}.stt td:nth-child(4)::before{content:"Valor da unidade"}.stt td.vv{grid-column:1/-1;text-align:right;padding-bottom:0}.stt td:nth-child(3)::before{content:"Quantidade"}
+  .stt .qi,.stt .qi.cv{width:100%!important}.stt .vv{padding-bottom:9px}
   .stt tr:hover td{background:none}
 }
 @media (max-width:420px){.kc span.m{font-size:12px}}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* estoque: editar */
+.stt .ei{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:12.5px}
+.stt .ei svg{width:14px;height:14px}
+.stt .qi.cv{width:118px}
+

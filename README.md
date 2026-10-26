@@ -48,6 +48,6 @@ Para o celular avisar (e falar, se o leitor de notificações estiver ativo), ad
 ## Dados
 **Backup:** em Pedidos, use *Fazer backup* (salve no Google Drive, pasta *Sistema Vivi Cake*) e *Restaurar backup* para recuperar num aparelho novo. Depois das 7h, se o backup do dia não foi feito, o app mostra um lembrete.
 
-Pedidos e estoque ficam no `localStorage` do aparelho: limpar os dados do navegador apaga tudo, e não há sincronização entre aparelhos.
+Os dados ficam no `localStorage` do aparelho e, quando a ponte está conectada, são sincronizados com uma planilha privada no Google Drive (via Google Apps Script). O link de conexão é privado e não fica neste repositório.
 O app começa vazio: cadastre fichas técnicas (**+ Nova ficha**), itens do cardápio (**+ Novo item**), insumos (**+ Novo insumo**) e pedidos pelo próprio app. Tudo fica salvo no aparelho.
 Ao atualizar arquivos, troque a versão em `sw.js` (`var V='vivicake-v13'`) para o cache renovar.
