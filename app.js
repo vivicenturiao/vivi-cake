@@ -288,26 +288,19 @@ function fixPct(){var by={};Object.keys(orders).forEach(function(k){var mk=k.sli
 if(!ms.length||!ft)return {p:ft?15:0,auto:false,ft:ft};var avg=ms.reduce(function(a,k){return a+by[k]},0)/ms.length;var raw=Math.round(ft/avg*1000)/10;return {p:Math.min(25,raw),raw:raw,auto:true,ft:ft,avg:avg}}
 function pc(v){return String(v).replace('.',',')}
 function r90(p){var c=Math.ceil(p)-0.1;return c>=p?c:c+1}
-function priceSheet(k){var it=cardapio[k],f=fichas.filter(function(x){return norm(x.n)===norm(it[0])})[0],c0=f?fcost(f.n):null,mk=mkGet(),fp=fixPct(),fv=mk.f==null?fp.p:mk.f;
-var hint=fp.auto?'Calculado: seus custos fixos ('+brl(fp.ft)+') ÷ faturamento médio do mês ('+brl(fp.avg)+')'+(fp.raw>25?' deu '+String(fp.raw).replace('.',',')+'%. Usei 25% como teto, porque o faturamento ainda está baixo.':'.'):(fp.ft?'Ainda sem pedidos para calcular. Usando 15% como base.':'Cadastre seus custos na aba Custos para calcular.');
+function priceSheet(k){var it=cardapio[k],f=fichas.filter(function(x){return norm(x.n)===norm(it[0])})[0],c0=f?fcost(f.n):null,L=40;
 var b='<p class="m" style="margin:0 0 6px"><b>'+esc(it[0])+'</b>'+(f?' · custo da ficha técnica':' · sem ficha técnica com esse nome')+'</p>'
-+fld('pc','Custo de preparo do item (R$)',c0==null?'':String(c0.toFixed(2)).replace('.',','),{im:'decimal',ph:'Ex.: 38,50',hint:f?'Vem da ficha técnica. Pode ajustar aqui só para a simulação.':'Digite quanto custa fazer uma unidade (ingredientes + embalagem).'})
-+'<div class="two">'+fld('pl','Lucro desejado (%)',pc(mk.l),{im:'decimal'})+fld('pf','Custos fixos (%)',pc(fv),{im:'decimal'})+'</div><span class="hint" style="margin-top:-2px">'+hint+'</span>'
-+'<div class="two">'+fld('pt','Taxa do cartão (%)',pc(mk.c),{im:'decimal'})+fld('pa','Taxa do app de entrega (%)',pc(mk.a),{im:'decimal'})+'</div>'
++fld('pc','Custo dos produtos para fazer (R$)',c0==null?'':String(c0.toFixed(2)).replace('.',','),{im:'decimal',ph:'Ex.: 38,50',hint:f?'Vem da ficha técnica. Pode ajustar aqui.':'Digite quanto você gasta de ingredientes e embalagem para fazer este item.'})
 +'<div class="pres" id="pres"></div>';
-openSheet('Preço sugerido',b,function(){var s=$('pres').dataset.s;if(!s){toast('Informe o custo de preparo');return false}var v=+s;it[2]=v;if(f)f.pv=brl(v);save();rl();toast('Preço de '+it[0]+' atualizado para '+brl(v))},'Usar preço sugerido');
-function calc(){var c=num($('pc').value),l=num($('pl').value)||0,fx=num($('pf').value)||0,t=num($('pt').value)||0,a=num($('pa').value)||0,el=$('pres');
-try{localStorage.setItem(MKK,JSON.stringify({l:l,c:t,a:a,f:(fp.auto&&Math.abs(fx-fp.p)<0.05)?null:fx}))}catch(e){}
-if(c==null||c<=0){el.innerHTML='<div class="empty" style="padding:18px">Digite o custo de preparo para ver os preços.</div>';el.dataset.s='';return}
-var dMin=1-(fx+t)/100,dSug=1-(fx+t+l)/100,dApp=1-(fx+a+l)/100;
-if(dSug<=0.05||dApp<=0.05){el.innerHTML='<div class="empty" style="padding:18px">A soma das porcentagens ficou alta demais. Diminua o lucro ou as taxas.</div>';el.dataset.s='';return}
-var pMin=c/dMin,pSug=c/dSug,pApp=c/dApp,sug=r90(pSug),app=r90(pApp),cur=+it[2]||0,mg=cur?(cur*dMin-c)/cur*100:null;
-var st=!cur?'':cur<pMin?['bad','Seu preço atual dá prejuízo']:cur<pSug?['mid','Seu preço atual dá lucro, mas abaixo do desejado']:['ok','Seu preço atual está bom'];
-el.dataset.s=sug.toFixed(2);
-el.innerHTML='<div class="pgrid"><div class="pbx"><span class="m">Preço mínimo</span><b>'+brl(r90(pMin))+'</b><span class="m">sem lucro, só paga custos</span></div><div class="pbx hi"><span class="m">Preço sugerido</span><b>'+brl(sug)+'</b><span class="m">balcão e cartão · '+(sug/c).toFixed(1).replace('.',',')+'× o custo</span></div><div class="pbx"><span class="m">No app de entrega</span><b>'+brl(app)+'</b><span class="m">com a taxa do app</span></div></div>'
-+(cur?'<div class="pcur '+st[0]+'"><span>Hoje: <b>'+brl(cur)+'</b> · lucro de '+(mg).toFixed(0)+'% por venda</span><span>'+st[1]+'</span></div>':'')
-+'<p class="m" style="margin:10px 0 0">Conta usada (markup): custo ÷ (1 − custos fixos − taxa − lucro). Os preços são arredondados para terminar em ,90.</p>'}
-['pc','pl','pf','pt','pa'].forEach(function(i){$(i).oninput=calc});calc()}
+openSheet('Preço sugerido',b,function(){var s=$('pres').dataset.s;if(!s){toast('Informe o custo dos produtos');return false}var v=+s;it[2]=v;if(f)f.pv=brl(v);save();rl();toast('Preço de '+it[0]+' atualizado para '+brl(v))},'Usar este preço');
+function calc(){var c=num($('pc').value),el=$('pres');
+if(c==null||c<=0){el.innerHTML='<div class="empty" style="padding:18px">Digite o custo dos produtos para ver o preço.</div>';el.dataset.s='';return}
+var pv=Math.round(c*(1+L/100)*100)/100,cur=+it[2]||0;
+el.dataset.s=pv.toFixed(2);
+el.innerHTML='<div class="pgrid"><div class="pbx"><span class="m">Custo dos produtos</span><b>'+brl(c)+'</b></div><div class="pbx"><span class="m">Seu lucro (40%)</span><b>'+brl(pv-c)+'</b></div><div class="pbx hi"><span class="m">Preço de venda</span><b>'+brl(pv)+'</b></div></div>'
++(cur?'<div class="pcur '+(cur<c?'bad':cur<pv?'mid':'ok')+'"><span>Hoje: <b>'+brl(cur)+'</b></span><span>'+(cur<c?'Dá prejuízo: não paga os produtos':cur<pv?'Lucro de '+brl(cur-c)+', abaixo de 40%':'Lucro de '+brl(cur-c)+' ('+Math.round((cur-c)/c*100)+'% sobre o custo)')+'</span></div>':'')
++'<p class="m" style="margin:10px 0 0">Conta: custo dos produtos + 40% de lucro em cima dele.</p>'}
+$('pc').oninput=calc;calc()}
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.ps');if(b)priceSheet(+b.dataset.k)});
 
 /* ---------- cardápio: prévia no modelo da Vivi ---------- */
