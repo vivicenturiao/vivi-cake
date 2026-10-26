@@ -336,15 +336,18 @@ var cdv='l';
 function pz(v){v=+v||0;return 'R$ '+(v%1?v.toFixed(2).replace('.',','):v)}
 function groups(){var g=[],ad=[];cardapio.forEach(function(c){var ct=(c[3]||'Cardápio').trim();if(norm(ct)==='adicionais'){ad.push(c);return}var x=g.filter(function(y){return y.n===ct})[0];if(!x){x={n:ct,it:[]};g.push(x)}x.it.push(c)});return {g:g,ad:ad}}
 function unitHead(it){var u=it.map(function(c){return c[4]||'un'});return u.every(function(x){return x==='kg'})?'Valor por Kg':u.every(function(x){return x==='fatia'})?'Valor por fatia':''}
+function ingText(c){var ch=typeof recOf==='function'?recOf(c):[],seen={},L=[];ch.forEach(function(f){(f.i||[]).forEach(function(x){var n=String(x[0]||'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim().toLowerCase();if(!n||/^agua$/.test(norm(n))||seen[norm(n)])return;seen[norm(n)]=1;L.push(n)})});
+if(L.length)return 'Ingredientes: '+L.join(', ')+'.';return c[1]?String(c[1]):''}
+function wrapT(x,t,w){var ws=t.split(' '),L=[],cur='';ws.forEach(function(wd){var tt=cur?cur+' '+wd:wd;if(x.measureText(tt).width>w&&cur){L.push(cur);cur=wd}else cur=tt});if(cur)L.push(cur);return L}
 function menuHTML(){var G=groups(),lg=document.querySelector('.mtop .mk');var h='<div class="menu"><div class="mhd">'+(lg?lg.outerHTML:'')+'<span class="ma">A T E L I Ê</span><span class="mv">Vivi cake</span></div>';
 if(!cardapio.length)return h+'<p class="mempty">Cadastre itens do cardápio para ver a prévia.</p></div>';
-G.g.forEach(function(s){var uh=unitHead(s.it);h+='<div class="msec"><h4>'+esc(s.n.toUpperCase())+'</h4>'+(uh?'<span class="mu">'+uh+'</span>':'')+'</div>';s.it.forEach(function(c){if(c[5])h+='<hr class="mdiv">';h+='<div class="mi"><span>'+esc(c[0])+'</span><i></i><b>'+pz(c[2])+(uh||!c[4]||c[4]==='un'?'':(c[4]==='kg'?'/kg':'/fatia'))+'</b></div>'})});
+G.g.forEach(function(s){var uh=unitHead(s.it);h+='<div class="msec"><h4>'+esc(s.n.toUpperCase())+'</h4>'+(uh?'<span class="mu">'+uh+'</span>':'')+'</div>';s.it.forEach(function(c){if(c[5])h+='<hr class="mdiv">';h+='<div class="mi"><span>'+esc(c[0])+'</span><i></i><b>'+pz(c[2])+(uh||!c[4]||c[4]==='un'?'':(c[4]==='kg'?'/kg':'/fatia'))+'</b></div>';var ig=ingText(c);if(ig)h+='<div class="mig">'+esc(ig)+'</div>'})});
 G.ad.forEach(function(c){h+='<div class="madd">'+esc(c[0])+' <i></i> + '+pz(c[2])+'</div>'});return h+'</div>'}
 function cdView(){document.querySelectorAll('.cdt').forEach(function(b){b.classList.toggle('on',b.dataset.v===cdv)});$('cd').hidden=cdv!=='l';$('cdp').hidden=cdv!=='p';$('rq').disabled=false;if(cdv==='p'){$('cdp').innerHTML=menuHTML()+'<button class="btn" id="mimg" style="margin-top:12px;width:100%">Baixar imagem do cardápio</button>';$('mimg').onclick=menuPNG;reveal($('cdp').querySelectorAll('.menu'))}}
 document.querySelectorAll('.cdt').forEach(function(b){b.onclick=function(){cdv=b.dataset.v;cdView()}});
 async function menuPNG(){var G=groups();if(!cardapio.length){toast('Cadastre itens primeiro');return}
 try{await Promise.all(['600 64px "Alegreya"','400 36px "Alegreya"','64px "Great Vibes"'].map(function(f){return document.fonts?document.fonts.load(f):0}))}catch(e){}
-var W=1080,hh=440;G.g.forEach(function(s){hh+=116+46+s.it.length*60;s.it.forEach(function(c){if(c[5])hh+=40})});var H=Math.max(1100,hh+(G.ad.length?G.ad.length*80+60:0)+110);
+var W=1080,hh=440,mx=document.createElement('canvas').getContext('2d');mx.font='italic 400 27px "Alegreya",Georgia,serif';var IG={};G.g.forEach(function(s){hh+=116+46+s.it.length*60;s.it.forEach(function(c){if(c[5])hh+=40;var t=ingText(c);IG[c[0]]=t?wrapT(mx,t,W-220):[];hh+=IG[c[0]].length?IG[c[0]].length*34+10:0})});var H=Math.max(1100,hh+(G.ad.length?G.ad.length*80+60:0)+110);
 var cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
 var gr=x.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#fde9ef');gr.addColorStop(1,'#fbeef3');x.fillStyle=gr;x.fillRect(0,0,W,H);
 x.strokeStyle='#ef9ab5';x.lineWidth=3;x.beginPath();var m=36,r=34;x.moveTo(m+r,m);x.lineTo(W-m-r,m);x.arc(W-m,m,r,Math.PI,Math.PI/2,true);x.lineTo(W-m,H-m-r);x.arc(W-m,H-m,r,-Math.PI/2,Math.PI,true);x.lineTo(m+r,H-m);x.arc(m,H-m,r,0,-Math.PI/2,true);x.lineTo(m,m+r);x.arc(m,m,r,Math.PI/2,0,true);x.stroke();
@@ -357,7 +360,7 @@ if(uh){x.font='400 26px "Alegreya",Georgia,serif';var tw=x.measureText(uh).width
 y+=(uh?116:96);s.it.forEach(function(c){if(c[5]){x.strokeStyle='#e2557e';x.lineWidth=4;x.beginPath();x.moveTo(W/2-310,y-28);x.lineTo(W/2+310,y-28);x.stroke();y+=40}
 x.textAlign='left';x.fillStyle='#2b1d22';x.font='400 40px "Alegreya",Georgia,serif';x.fillText(c[0],L,y);var nw=x.measureText(c[0]).width;
 var pr=pz(c[2])+(uh||!c[4]||c[4]==='un'?'':(c[4]==='kg'?'/kg':'/fatia'));x.font='400 40px "Alegreya",Georgia,serif';var pw=x.measureText(pr).width;x.fillStyle='#e2557e';x.textAlign='right';x.fillText(pr,R,y);
-x.fillStyle='#e2557e';for(var dx=L+nw+14;dx<R-pw-18;dx+=13){x.beginPath();x.arc(dx,y-4,2.6,0,7);x.fill()}y+=60});y+=46});
+x.fillStyle='#e2557e';for(var dx=L+nw+14;dx<R-pw-18;dx+=13){x.beginPath();x.arc(dx,y-4,2.6,0,7);x.fill()}var il=IG[c[0]]||[];if(il.length){x.textAlign='left';x.fillStyle='#7a5a66';x.font='italic 400 27px "Alegreya",Georgia,serif';il.forEach(function(l,j){x.fillText(l,L,y+40+j*34)});y+=il.length*34+10}y+=60});y+=46});
 if(G.ad.length){y+=20;G.ad.forEach(function(c){x.fillStyle='#f6c6d6';x.fillRect(60,y-46,W-120,66);x.fillStyle='#d6336c';x.textAlign='center';x.font='700 34px "Alegreya",Georgia,serif';x.fillText(c[0]+'.... + '+pz(c[2]),W/2,y);y+=80})}
 cv.toBlob(function(b){out(b,'vivi-cake-cardapio.png').then(function(ok){if(ok)toast('Imagem do cardápio pronta para enviar')})},'image/png')}
 

@@ -354,3 +354,4 @@ main{position:relative}
 .rchg{margin:0 0 10px}.rchg summary{display:block;margin-top:0;font-weight:500;color:var(--mut);line-height:1.45}.rchg summary b{color:var(--ink)}
 .rchg .rsel{margin-top:6px}
 .tagr.cst.ok{background:#e7f2ea;color:#2f6a43}.tagr.cst.mid{background:var(--car2);color:var(--car-ink)}.tagr.cst.bad{background:var(--bad2);color:var(--bad)}
+.mig{font:italic 400 14px/1.4 "Alegreya",Georgia,serif;color:#7a5a66;margin:-4px 0 10px;max-width:92%}
