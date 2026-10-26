@@ -355,3 +355,19 @@ main{position:relative}
 .rchg .rsel{margin-top:6px}
 .tagr.cst.ok{background:#e7f2ea;color:#2f6a43}.tagr.cst.mid{background:var(--car2);color:var(--car-ink)}.tagr.cst.bad{background:var(--bad2);color:var(--bad)}
 .mig{font:italic 400 14px/1.4 "Alegreya",Georgia,serif;color:#7a5a66;margin:-4px 0 10px;max-width:92%}
+/* insumos: possíveis opções */
+.zsug{margin:-4px 0 10px}.zsug .m{font-size:12px}
+.zch{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.zc{display:inline-flex;flex-direction:column;align-items:flex-start;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:6px 10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer;text-align:left;transition:border-color .2s,background .2s}
+.zc:hover{border-color:var(--car);background:var(--blush2)}
+.zc small{font-size:10.5px;color:var(--mut)}
+.zc.ze{border-color:#b8d8c2;background:#eef6f0}.zc.ze small{color:#2f6a43}
+.zw{margin:0 0 6px;font-size:12.5px;background:var(--car2);color:var(--car-ink);padding:6px 10px;border-radius:10px}
+#xs{margin-top:6px}
+/* estoque: dados faltando */
+.stt tr.inc td{background:#fff6e0}
+.stt tr.inc td:first-child{box-shadow:inset 4px 0 0 #e0a43a}
+.fal{font-size:12px;color:#9a6a12;font-weight:600;margin-top:3px}
+.incb{display:flex;align-items:center;gap:8px;font-size:13px;color:#8a5c0c;background:#fff6e0;border:1px solid #f1d9a6;border-radius:12px;padding:8px 12px;margin:0 0 10px}
+.incb i{width:10px;height:10px;border-radius:3px;background:#e0a43a;flex:none}
+@media (max-width:860px){.stt tr.inc{background:#fff6e0;border-radius:14px;padding:12px 10px;margin:6px 0}.stt tr.inc td{background:none}.stt tr.inc td:first-child{box-shadow:none}}
