@@ -342,3 +342,15 @@ main{position:relative}
 .stt .ei svg{width:14px;height:14px}
 .stt .qi.cv{width:118px}
 
+/* preço sugerido: receitas */
+.rsel{max-height:180px;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin-bottom:10px}
+.rdt{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 8px;background:var(--blush2)}
+.rdt summary{display:flex;margin-top:0;gap:8px;cursor:pointer;font-size:14px;list-style:none}.rdt summary span{flex:1;text-align:left}
+.rdt summary::-webkit-details-marker{display:none}
+.rdt ul{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+.rdt li{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px dashed var(--line)}
+.rdt li .mut{color:var(--mut);font-style:italic}
+.warnh{background:var(--car2);color:var(--car-ink);padding:8px 12px;border-radius:12px;margin:0 0 10px}
+.rchg{margin:0 0 10px}.rchg summary{display:block;margin-top:0;font-weight:500;color:var(--mut);line-height:1.45}.rchg summary b{color:var(--ink)}
+.rchg .rsel{margin-top:6px}
+.tagr.cst.ok{background:#e7f2ea;color:#2f6a43}.tagr.cst.mid{background:var(--car2);color:var(--car-ink)}.tagr.cst.bad{background:var(--bad2);color:var(--bad)}
